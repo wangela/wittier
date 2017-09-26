@@ -23,19 +23,13 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func onLoginButton(_ sender: Any) {
-        let twitterClient = BDBOAuth1SessionManager(baseURL: URL(string: "https://api.twitter.com"), consumerKey: "beruK1UauXpiV2PxWrc6EkDGb", consumerSecret: "DYokLj6ErkKKcNgmKmyrLUyVHMawfX7zc0InSCGlbjqUDlyn4l")
+        let client = TwitterClient.sharedInstance
         
-        twitterClient?.fetchRequestToken(withPath: "oauth/request_token", method: "GET", callbackURL: URL(string: "wittier://oauth"), scope: nil, success: { (requestToken: BDBOAuth1Credential!) -> Void in
-            print("got a token \(requestToken.token)")
-            guard let tokenString = requestToken.token else {
-                print("unwrapping request token failed")
-                return
-            }
-            let url = URL(string: "https://api.twitter.com/oauth/authorize?oauth_token=\(tokenString)")
-            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        client?.login(success: { () -> () in
+            print("I've logged in!")
             
-        }, failure: { (error: Error!) -> Void in
-            print("error: \(error.localizedDescription)")
+        }, failure: { (error: Error) -> () in
+            
         })
         
     }

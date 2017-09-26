@@ -44,38 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         print(url.description)
-        let requestToken = BDBOAuth1Credential(queryString: url.query)
-        let twitterClient = BDBOAuth1SessionManager(baseURL: URL(string: "https://api.twitter.com"), consumerKey: "beruK1UauXpiV2PxWrc6EkDGb", consumerSecret: "DYokLj6ErkKKcNgmKmyrLUyVHMawfX7zc0InSCGlbjqUDlyn4l")
-        
-        twitterClient?.fetchAccessToken(withPath: "https://api.twitter.com/oauth/access_token", method: "POST", requestToken: requestToken, success: { (accessToken: BDBOAuth1Credential!) -> Void in
-            print ("got an access token")
+        TwitterClient.sharedInstance.handleOpenURL(url: url)
 
-            twitterClient?.get("1.1/account/verify_credentials.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
-                let userDictionary = response as! NSDictionary
-                let user = User(dictionary: userDictionary)
-                print("\(user.name)")
-                print("\(user.tagline)")
-                
-            }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
-                print("error: \(error.localizedDescription)")
-            })
-            
-            twitterClient?.get("1.1/statuses/home_timeline.json", parameters: nil, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
-                let dictionaries = response as! [NSDictionary]
-                let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
-                
-                for tweet in tweets {
-                    print("\(tweet.text!)")
-                }
-            }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
-                print("error: \(error.localizedDescription)")
-            })
-        }, failure: { (error: Error!) -> Void in
-            print ("error: \(error.localizedDescription)")
-        })
-        
-
-        
         return true
     }
 
