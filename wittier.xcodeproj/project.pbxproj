@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00700DC03716909B5AE77EBA /* Pods_wittier.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16FD79EA1BA2607872DD5B03 /* Pods_wittier.framework */; };
-		770DD5681F7AEF300057915B /* VCs in Sources */ = {isa = PBXBuildFile; fileRef = 770DD5671F7AEF300057915B /* VCs */; };
 		7741622F1F7A242A005DA649 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7741622E1F7A242A005DA649 /* AppDelegate.swift */; };
 		774162341F7A242A005DA649 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 774162321F7A242A005DA649 /* Main.storyboard */; };
 		774162361F7A242A005DA649 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 774162351F7A242A005DA649 /* Assets.xcassets */; };
@@ -18,7 +17,6 @@
 
 /* Begin PBXFileReference section */
 		16FD79EA1BA2607872DD5B03 /* Pods_wittier.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_wittier.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		770DD5671F7AEF300057915B /* VCs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = VCs; sourceTree = "<group>"; };
 		7741622B1F7A242A005DA649 /* wittier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wittier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7741622E1F7A242A005DA649 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		774162331F7A242A005DA649 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -87,7 +85,6 @@
 				774162321F7A242A005DA649 /* Main.storyboard */,
 				774162351F7A242A005DA649 /* Assets.xcassets */,
 				774162371F7A242A005DA649 /* LaunchScreen.storyboard */,
-				770DD5671F7AEF300057915B /* VCs */,
 				7741623A1F7A242A005DA649 /* Info.plist */,
 			);
 			path = wittier;
@@ -248,7 +245,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				770DD5681F7AEF300057915B /* VCs in Sources */,
 				7741622F1F7A242A005DA649 /* AppDelegate.swift in Sources */,
 				775C61E41F7B02EA00679D56 /* User.swift in Sources */,
 			);
