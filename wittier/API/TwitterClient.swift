@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AFNetworking
 import BDBOAuth1Manager
 
 class TwitterClient: BDBOAuth1SessionManager {
@@ -39,6 +40,8 @@ class TwitterClient: BDBOAuth1SessionManager {
     func handleOpenURL(url: URL) {
         let requestToken = BDBOAuth1Credential(queryString: url.query)
         fetchAccessToken(withPath: "https://api.twitter.com/oauth/access_token", method: "POST", requestToken: requestToken, success: { (accessToken: BDBOAuth1Credential!) -> Void in
+            print("\(accessToken.token)")
+            print("\(accessToken.secret)")
             self.loginSuccess?()
         }, failure: { (error: Error?) -> Void in
             print("\(error?.localizedDescription)")
@@ -65,6 +68,38 @@ class TwitterClient: BDBOAuth1SessionManager {
             
             success(tweets)
         }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            failure(error)
+        })
+    }
+    
+    func fave(id: Int64, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        let params: [String: AnyObject] = ["id": id as AnyObject]
+        print(params)
+        self.post("1.1/favorites/create.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
+            let taskResponse = task.response
+            let tweetDict = response as! NSDictionary
+            let tweet = Tweet(dictionary: tweetDict)
+            print("\(tweet.favoritesCount)")
+            success(tweet)
+        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            print("favorite task failed")
+            print("error: \(error.localizedDescription)")
+            failure(error)
+        })
+    }
+    
+    func unfave(id: Int64, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+        let params: [String: AnyObject] = ["id": id as AnyObject]
+        print(params)
+        self.post("1.1/favorites/destroy.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
+            let taskResponse = task.response
+            let tweetDict = response as! NSDictionary
+            let tweet = Tweet(dictionary: tweetDict)
+            print("\(tweet.favoritesCount)")
+            success(tweet)
+        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            print("unfavorite task failed")
+            print("error: \(error.localizedDescription)")
             failure(error)
         })
     }

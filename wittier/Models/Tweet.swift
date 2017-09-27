@@ -30,6 +30,7 @@ extension Date {
 }
 
 class Tweet: NSObject {
+    var id: Int64?
     var user: User?
     var text: String?
     var replyCount: Int = 0
@@ -47,6 +48,7 @@ class Tweet: NSObject {
         }
         user = User(dictionary: userDict)
         
+        id = dictionary["id"] as? Int64
         text = dictionary["text"] as? String
         replyCount = (dictionary["reply_count"] as? Int) ?? 0
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
