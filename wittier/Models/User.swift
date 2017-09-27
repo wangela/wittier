@@ -23,6 +23,7 @@ class User: NSObject {
             print("error unwrapping profile url string")
             return
         }
+        print(profileURLString)
         profileURL = URL(string: profileURLString)
         
         tagline = dictionary["description"] as? String

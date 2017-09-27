@@ -2,13 +2,13 @@
 
 A simpler Twitter client for iOS
 
-Time spent: 5 hours spent in total
+Time spent: 6.5 hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 - [x] User can sign in using OAuth login flow
-- [ ] User can view last 20 tweets from their home timeline
+- [x] User can view last 20 tweets from their home timeline
 - [ ] The current signed in user will be persisted across restarts
 - [ ] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
 - [ ] User can pull to refresh
@@ -41,6 +41,10 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 
 ## License
+Credits:
+Reply action icon from [https://iconmonstr.com/speech-bubble-16/]
+Retweet action icon from [https://iconmonstr.com/retweet-1/]
+Like action icon from [https://iconmonstr.com/favorite-4/]
 
   MIT License
 

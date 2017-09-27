@@ -8,22 +8,26 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController {
+class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet weak var tweetsTableView: UITableView!
     
     var tweets: [Tweet]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         TwitterClient.sharedInstance.homeTimeline(success: { (tweets: [Tweet]) -> () in
             self.tweets = tweets
-            
-            for tweet in tweets {
-                print(tweet.text)
-            }
+            self.tweetsTableView.reloadData()
         }, failure: {(error: Error) -> () in
             print(error.localizedDescription)
         })
+        
+        tweetsTableView.dataSource = self
+        tweetsTableView.delegate = self
+        tweetsTableView.rowHeight = UITableViewAutomaticDimension
+        tweetsTableView.estimatedRowHeight = 200
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,7 +35,22 @@ class TimelineViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tweetsTableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
+        
+        guard let tweetsArray = tweets else {
+            print("problem unwrapping tweets")
+            return cell
+        }
+        cell.tweet = tweetsArray[indexPath.row]
+        
+        return cell
+    }
+    
     /*
     // MARK: - Navigation
 
