@@ -28,7 +28,7 @@ class TweetCell: UITableViewCell {
             displayNameLabel.text = user.name
             screennameLabel.text = user.screenname
             tweetLabel.text = tweet.text
-            timestampLabel.text = tweet.timestamp
+            timestampLabel.text = tweet.relativeTimestamp
             replyCountLabel.text = "\(tweet.replyCount)"
             rtCountLabel.text = "\(tweet.retweetCount)"
             favCountLabel.text = "\(tweet.favoritesCount)"
@@ -41,6 +41,7 @@ class TweetCell: UITableViewCell {
 
         }
     }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

@@ -27,7 +27,10 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         tweetsTableView.delegate = self
         tweetsTableView.rowHeight = UITableViewAutomaticDimension
         tweetsTableView.estimatedRowHeight = 200
-
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
+        tweetsTableView.insertSubview(refreshControl, at: 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,6 +54,16 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
     
+    func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        TwitterClient.sharedInstance.homeTimeline(success: { (tweets: [Tweet]) -> () in
+            self.tweets = tweets
+            self.tweetsTableView.reloadData()
+            refreshControl.endRefreshing()
+        }, failure: {(error: Error) -> () in
+            print(error.localizedDescription)
+        })
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -60,5 +73,12 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         // Pass the selected object to the new view controller.
     }
     */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "detail" {
+            let cell = sender as! TweetCell
+            let destinationVC = segue.destination as! TweetViewController
+            destinationVC.tweet = cell.tweet
+        }
+    }
 
 }

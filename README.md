@@ -2,16 +2,16 @@
 
 A simpler Twitter client for iOS
 
-Time spent: 6.5 hours spent in total
+Time spent: 8 hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 - [x] User can sign in using OAuth login flow
-- [x] User can view last 20 tweets from their home timeline
 - [ ] The current signed in user will be persisted across restarts
-- [ ] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
-- [ ] User can pull to refresh
+- [x] User can view last 20 tweets from their home timeline
+- [x] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
+- [x] User can pull to refresh
 - [ ] User can compose a new tweet by tapping on a compose button.
 - [ ] User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
 
@@ -25,8 +25,10 @@ The following **optional** features are implemented:
 - [ ] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
 
 The following **additional** features are implemented:
-
-
+- [ ] Timestamps are displayed with relative date formatting
+- [ ] Display media in a tweet detail view
+- [ ] Label retweets
+- [ ] Button to easily return to the top
 
 ## Video Walkthrough
 

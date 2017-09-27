@@ -22,7 +22,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         
         TwitterClient.sharedInstance.deauthorize()
         TwitterClient.sharedInstance.fetchRequestToken(withPath: "oauth/request_token", method: "GET", callbackURL: URL(string: "wittier://oauth"), scope: nil, success: { (requestToken: BDBOAuth1Credential!) -> Void in
-            print("got a token \(requestToken.token)")
+            print("got a token")
             guard let tokenString = requestToken.token else {
                 print("unwrapping request token failed")
                 return
