@@ -9,11 +9,21 @@
 import UIKit
 
 class TimelineViewController: UIViewController {
+    
+    var tweets: [Tweet]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        TwitterClient.sharedInstance.homeTimeline(success: { (tweets: [Tweet]) -> () in
+            self.tweets = tweets
+            
+            for tweet in tweets {
+                print(tweet.text)
+            }
+        }, failure: {(error: Error) -> () in
+            print(error.localizedDescription)
+        })
     }
 
     override func didReceiveMemoryWarning() {
