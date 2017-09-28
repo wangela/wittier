@@ -9,18 +9,24 @@
 import UIKit
 
 class TweetViewController: UIViewController {
+    @IBOutlet weak var scrollframeView: UIScrollView!
+    @IBOutlet weak var boxView: UIView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var displayNameLabel: UILabel!
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var statsLabel: UILabel!
+    @IBOutlet weak var replyButton: UIButton!
+    @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var faveButton: UIButton!
     
     var tweet: Tweet!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        boxView.layer.cornerRadius = 5
 
         guard let user = tweet.user else {
             print("nil user")
@@ -43,6 +49,8 @@ class TweetViewController: UIViewController {
             return
         }
         profileImageView.setImageWith(profileURL)
+        
+        scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 16)
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,6 +65,35 @@ class TweetViewController: UIViewController {
             faveButton.setImage(#imageLiteral(resourceName: "favorite-blk"), for: .normal)
         } else {
             faveButton.setImage(#imageLiteral(resourceName: "favorite"), for: .normal)
+        }
+    }
+    
+    @IBAction func onRetweetButton(_ sender: Any) {
+        guard let tweetID = tweet.id else {
+            print("bad tweet ID")
+            return
+        }
+        let rtState = tweet.retweeted
+        print(rtState)
+        let rtCount = tweet.retweetCount
+        if rtState {
+            TwitterClient.sharedInstance.unretweet(id: tweetID, success: { (newTweet: Tweet) -> Void in
+                self.tweet = newTweet
+                self.tweet.retweeted = !rtState
+                self.tweet.retweetCount = rtCount - 1
+                self.updateStats()
+            }, failure: { (error: Error) -> Void in
+                print("\(error.localizedDescription)")
+            })
+        } else {
+            TwitterClient.sharedInstance.retweet(id: tweetID, success: { (newTweet: Tweet) -> Void in
+                self.tweet = newTweet
+                self.tweet.retweeted = !rtState
+                self.tweet.retweetCount = rtCount + 1
+                self.updateStats()
+            }, failure: { (error: Error) -> Void in
+                print("\(error.localizedDescription)")
+            })
         }
     }
     

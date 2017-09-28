@@ -64,6 +64,10 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         })
     }
     
+    @IBAction func onTopButton(_ sender: Any) {
+        self.tweetsTableView.setContentOffset(CGPoint.zero, animated: true)
+    }
+    
     /*
     // MARK: - Navigation
 

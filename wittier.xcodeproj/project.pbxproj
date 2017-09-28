@@ -92,6 +92,7 @@
 		7741622D1F7A242A005DA649 /* wittier */ = {
 			isa = PBXGroup;
 			children = (
+				77D8C44A1F7C560D006611BA /* Resources */,
 				774B77B01F7B113E001314BD /* API */,
 				77BEBF021F7B033C0056E9A7 /* ViewControllers */,
 				775C61E21F7B02C700679D56 /* Views */,
@@ -139,6 +140,13 @@
 				774848FD1F7B76BB00D349DC /* ComposeViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		77D8C44A1F7C560D006611BA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
