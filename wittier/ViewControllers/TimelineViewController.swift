@@ -68,6 +68,10 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         self.tweetsTableView.setContentOffset(CGPoint.zero, animated: true)
     }
     
+    @IBAction func onLogoutButton(_ sender: Any) {
+        TwitterClient.sharedInstance.logout()
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -41,8 +41,14 @@ class TweetViewController: UIViewController {
         if tweet.favorited {
             faveButton.setImage(#imageLiteral(resourceName: "favorite-blk"), for: .normal)
         } else {
-            faveButton.setImage(#imageLiteral(resourceName: "favorite"), for: .normal)
+            faveButton.setImage(#imageLiteral(resourceName: "favorite-aaa"), for: .normal)
         }
+        if tweet.retweeted {
+            retweetButton.setImage(#imageLiteral(resourceName: "retweet"), for: .normal)
+        } else {
+            retweetButton.setImage(#imageLiteral(resourceName: "retweet-aaa"), for: .normal)
+        }
+        
         guard let profileURL = user.profileURL else {
             print("nil profile image")
             profileImageView.image = nil
@@ -64,7 +70,12 @@ class TweetViewController: UIViewController {
         if tweet.favorited {
             faveButton.setImage(#imageLiteral(resourceName: "favorite-blk"), for: .normal)
         } else {
-            faveButton.setImage(#imageLiteral(resourceName: "favorite"), for: .normal)
+            faveButton.setImage(#imageLiteral(resourceName: "favorite-aaa"), for: .normal)
+        }
+        if tweet.retweeted {
+            retweetButton.setImage(#imageLiteral(resourceName: "retweet"), for: .normal)
+        } else {
+            retweetButton.setImage(#imageLiteral(resourceName: "retweet-aaa"), for: .normal)
         }
     }
     
