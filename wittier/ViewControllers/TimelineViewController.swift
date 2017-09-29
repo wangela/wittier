@@ -8,10 +8,12 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate {
     @IBOutlet weak var tweetsTableView: UITableView!
     
     var tweets: [Tweet]!
+    let refreshControl = UIRefreshControl()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +30,6 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         tweetsTableView.rowHeight = UITableViewAutomaticDimension
         tweetsTableView.estimatedRowHeight = 200
         
-        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         tweetsTableView.insertSubview(refreshControl, at: 0)
     }
@@ -85,8 +86,22 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         if segue.identifier == "detail" {
             let cell = sender as! TweetCell
             let destinationVC = segue.destination as! TweetViewController
+            
             destinationVC.tweet = cell.tweet
         }
+        if segue.identifier == "compose" {
+            let navigationController = segue.destination as! UINavigationController
+            let composeVC = navigationController.topViewController as! ComposeViewController
+            
+            composeVC.delegate = self
+
+        }
+    }
+    
+    internal func composeViewController(composeViewController: ComposeViewController, tweeted string: String) {
+        composeViewController.dismiss(animated: true, completion: nil)
+        TwitterClient.sharedInstance.tweet(text: string)
+        refreshControlAction(refreshControl)
     }
 
 }

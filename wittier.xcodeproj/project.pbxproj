@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		00700DC03716909B5AE77EBA /* Pods_wittier.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16FD79EA1BA2607872DD5B03 /* Pods_wittier.framework */; };
+		7714CCF51F7CE7A700993431 /* ComposeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7714CCF41F7CE7A700993431 /* ComposeAccessoryView.swift */; };
+		7714CCF71F7CEA9D00993431 /* ComposeToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7714CCF61F7CEA9D00993431 /* ComposeToolbar.swift */; };
 		7741622F1F7A242A005DA649 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7741622E1F7A242A005DA649 /* AppDelegate.swift */; };
 		774162341F7A242A005DA649 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 774162321F7A242A005DA649 /* Main.storyboard */; };
 		774162361F7A242A005DA649 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 774162351F7A242A005DA649 /* Assets.xcassets */; };
@@ -24,6 +26,8 @@
 
 /* Begin PBXFileReference section */
 		16FD79EA1BA2607872DD5B03 /* Pods_wittier.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_wittier.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7714CCF41F7CE7A700993431 /* ComposeAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeAccessoryView.swift; sourceTree = "<group>"; };
+		7714CCF61F7CEA9D00993431 /* ComposeToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeToolbar.swift; sourceTree = "<group>"; };
 		7741622B1F7A242A005DA649 /* wittier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wittier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7741622E1F7A242A005DA649 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		774162331F7A242A005DA649 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -127,6 +131,8 @@
 			isa = PBXGroup;
 			children = (
 				77A2D89F1F7B285E009EB2DF /* TweetCell.swift */,
+				7714CCF41F7CE7A700993431 /* ComposeAccessoryView.swift */,
+				7714CCF61F7CEA9D00993431 /* ComposeToolbar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -286,10 +292,12 @@
 				774B77AA1F7B0508001314BD /* LoginViewController.swift in Sources */,
 				77A2D8A01F7B285E009EB2DF /* TweetCell.swift in Sources */,
 				7741622F1F7A242A005DA649 /* AppDelegate.swift in Sources */,
+				7714CCF71F7CEA9D00993431 /* ComposeToolbar.swift in Sources */,
 				775C61E41F7B02EA00679D56 /* User.swift in Sources */,
 				774848FC1F7B76A900D349DC /* TweetViewController.swift in Sources */,
 				774B77AC1F7B06CC001314BD /* Tweet.swift in Sources */,
 				774B77B41F7B11AB001314BD /* TwitterClient.swift in Sources */,
+				7714CCF51F7CE7A700993431 /* ComposeAccessoryView.swift in Sources */,
 				774B77AE1F7B0DDE001314BD /* TimelineViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

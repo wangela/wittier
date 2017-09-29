@@ -2,7 +2,7 @@
 
 A simpler Twitter client for iOS
 
-Time spent: 13.5 hours spent in total
+Time spent: 16.5 hours spent in total
 
 ## User Stories
 
@@ -12,7 +12,7 @@ The following **required** functionality is completed:
 - [x] User can view last 20 tweets from their home timeline
 - [x] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
 - [x] User can pull to refresh
-- [ ] User can compose a new tweet by tapping on a compose button.
+- [x] User can compose a new tweet by tapping on a compose button.
 - [x] User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
 
 The following **optional** features are implemented:
@@ -44,10 +44,12 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## License
 Credits:
+Compose action icon from [https://iconmonstr.com/edit-4/]
 Reply action icon from [https://iconmonstr.com/speech-bubble-16/]
 Retweet action icon from [https://iconmonstr.com/retweet-1/]
 Favorite action icon from [https://iconmonstr.com/favorite-4/]
 Favorited icon from [https://iconmonstr.com/favorite-3/]
+Cancel action icon from [https://iconmonstr.com/x-mark-9/]
 
   MIT License
 

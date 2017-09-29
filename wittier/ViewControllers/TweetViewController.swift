@@ -35,7 +35,7 @@ class TweetViewController: UIViewController {
         displayNameLabel.text = user.name
         screennameLabel.text = user.screenname
         tweetLabel.text = tweet.text
-        timestampLabel.text = tweet.timestamp
+        timestampLabel.text = tweet.detailTimestamp
         let statsString = "\(tweet.retweetCount) Retweets  \(tweet.favoritesCount) Likes"
         statsLabel.text = statsString
         if tweet.favorited {
@@ -55,6 +55,8 @@ class TweetViewController: UIViewController {
             return
         }
         profileImageView.setImageWith(profileURL)
+        profileImageView.layer.cornerRadius = 5
+        profileImageView.clipsToBounds = true
         
         scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 16)
     }

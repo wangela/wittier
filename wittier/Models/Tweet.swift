@@ -40,6 +40,7 @@ class Tweet: NSObject {
     var favorited: Bool = false
     var timestamp: String?
     var relativeTimestamp: String?
+    var detailTimestamp: String?
     
     init(dictionary: NSDictionary) {
         guard let userDict = dictionary["user"] as? NSDictionary else {
@@ -68,6 +69,11 @@ class Tweet: NSObject {
             return
         }
         relativeTimestamp = timestampDate.relativeTime
+        formatter.dateFormat = "EEE MMM d, hh:mm:ss a"
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        detailTimestamp = formatter.string(from: timestampDate)
+        
     }
     
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet] {

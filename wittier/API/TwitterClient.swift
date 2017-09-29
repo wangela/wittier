@@ -85,6 +85,20 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func tweet(text: String) {
+        print("tweet! \(text)")
+        let params: [String: AnyObject] = ["status": text as AnyObject]
+        print(params)
+        self.post("1.1/statuses/update.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
+            let tweetDict = response as! NSDictionary
+            let tweet = Tweet(dictionary: tweetDict)
+            print("\(tweet.timestamp)")
+        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            print("tweet task failed")
+            print("error: \(error.localizedDescription)")
+        })
+    }
+    
     func fave(id: Int64, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
         let params: [String: AnyObject] = ["id": id as AnyObject]
         print(params)

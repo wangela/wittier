@@ -50,7 +50,6 @@ class User: NSObject {
                     print("got existing user")
                 }
             }
-            print("got nil user")
             return _currentUser
         }
         set(user) {
