@@ -78,7 +78,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="291.5"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1UH-h7-HIC" userLabel="RetweetView">
-                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="36"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="retweet-aaa" translatesAutoresizingMaskIntoConstraints="NO" id="92b-kZ-Jiu">
                                                                     <rect key="frame" x="42" y="8" width="20" height="20"/>
@@ -97,15 +97,15 @@
                                                             </subviews>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="92b-kZ-Jiu" secondAttribute="bottom" constant="8" id="G22-9s-h1O"/>
+                                                                <constraint firstAttribute="bottom" secondItem="92b-kZ-Jiu" secondAttribute="bottom" priority="750" id="G22-9s-h1O"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Tpa-LX-tEQ" secondAttribute="trailing" constant="12" id="GeJ-QL-bMm"/>
                                                                 <constraint firstItem="Tpa-LX-tEQ" firstAttribute="leading" secondItem="92b-kZ-Jiu" secondAttribute="trailing" constant="4" id="fe9-jh-pEA"/>
                                                                 <constraint firstItem="Tpa-LX-tEQ" firstAttribute="centerY" secondItem="92b-kZ-Jiu" secondAttribute="centerY" id="wMS-ey-ccu"/>
-                                                                <constraint firstItem="92b-kZ-Jiu" firstAttribute="top" secondItem="1UH-h7-HIC" secondAttribute="top" constant="8" id="wby-Li-EqH"/>
+                                                                <constraint firstItem="92b-kZ-Jiu" firstAttribute="top" secondItem="1UH-h7-HIC" secondAttribute="top" priority="750" constant="8" id="wby-Li-EqH"/>
                                                             </constraints>
                                                         </view>
                                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="rvK-Ka-dST" userLabel="tweetStackView">
-                                                            <rect key="frame" x="0.0" y="36" width="375" height="255.5"/>
+                                                            <rect key="frame" x="0.0" y="50" width="375" height="241.5"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aJO-3Z-uHK">
                                                                     <rect key="frame" x="0.0" y="0.0" width="12" height="50"/>

@@ -8,5 +8,6 @@ target 'wittier' do
   # Pods for wittier
   pod 'AFNetworking'
   pod 'BDBOAuth1Manager'
+  pod "MBProgressHUD"
 
 end

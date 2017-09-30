@@ -74,12 +74,13 @@ class Tweet: NSObject {
         formatter.pmSymbol = "PM"
         detailTimestamp = formatter.string(from: timestampDate)
         
-        guard let originalTweet = dictionary["retweeted_status"] else {
+        if let originalTweet = dictionary["retweeted_status"] {
+            // retweeted_status = originalTweet
+            print("found a retweet")
+        } else {
             print("didn't find a retweet")
-            return
         }
-        // retweeted_status = originalTweet
-        print("found a retweet")
+
         
     }
     

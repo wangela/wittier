@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate {
     @IBOutlet weak var tweetsTableView: UITableView!
@@ -18,12 +19,8 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        TwitterClient.sharedInstance.homeTimeline(success: { (tweets: [Tweet]) -> () in
-            self.tweets = tweets
-            self.tweetsTableView.reloadData()
-        }, failure: {(error: Error) -> () in
-            print(error.localizedDescription)
-        })
+        tweetsTableView.isHidden = true
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         
         tweetsTableView.dataSource = self
         tweetsTableView.delegate = self
@@ -32,6 +29,18 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         tweetsTableView.insertSubview(refreshControl, at: 0)
+        
+        TwitterClient.sharedInstance.homeTimeline(success: { (tweets: [Tweet]) -> () in
+            self.tweets = tweets
+            self.tweetsTableView.reloadData()
+            self.tweetsTableView.isHidden = false
+            MBProgressHUD.hide(for: self.view, animated: true)
+        }, failure: {(error: Error) -> () in
+            print(error.localizedDescription)
+            // Hide HUD once the network request comes back
+            MBProgressHUD.hide(for: self.view, animated: true)
+        })
+        
     }
 
     override func didReceiveMemoryWarning() {
