@@ -20,13 +20,29 @@ class TweetViewController: UIViewController {
     @IBOutlet weak var replyButton: UIButton!
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var faveButton: UIButton!
+    @IBOutlet weak var retweetView: UIView!
+    @IBOutlet weak var retweeterLabel: UILabel!
     
     var tweet: Tweet!
+    var retweeter: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         boxView.layer.cornerRadius = 5
+        
+        if let retweetUser = retweeter {
+            if let retweeterName = retweetUser.name {
+                retweeterLabel.text = "\(retweeterName) Retweeted"
+            } else {
+                retweeterLabel.text = "Somebody Retweeted"
+            }
+            retweetView.isHidden = false
+            print("\(retweeterLabel.text)")
+        } else {
+            print("nil retweeter")
+            retweetView.isHidden = true
+        }
 
         guard let user = tweet.user else {
             print("nil user")
@@ -58,7 +74,7 @@ class TweetViewController: UIViewController {
         profileImageView.layer.cornerRadius = 5
         profileImageView.clipsToBounds = true
         
-        scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 16)
+        scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 20)
     }
 
     override func didReceiveMemoryWarning() {

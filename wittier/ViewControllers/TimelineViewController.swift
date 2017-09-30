@@ -113,6 +113,9 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             let destinationVC = segue.destination as! TweetViewController
             
             destinationVC.tweet = cell.tweet
+            if cell.retweeter != nil {
+                destinationVC.retweeter = cell.retweeter
+            }
         }
         if segue.identifier == "compose" {
             let navigationController = segue.destination as! UINavigationController
