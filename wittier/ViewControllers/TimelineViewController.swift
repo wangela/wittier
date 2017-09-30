@@ -28,7 +28,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         tweetsTableView.dataSource = self
         tweetsTableView.delegate = self
         tweetsTableView.rowHeight = UITableViewAutomaticDimension
-        tweetsTableView.estimatedRowHeight = 200
+        tweetsTableView.estimatedRowHeight = 300
         
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         tweetsTableView.insertSubview(refreshControl, at: 0)
@@ -40,17 +40,31 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tweetsTableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
+        var cellTweet: Tweet
         
         guard let tweetsArray = tweets else {
             print("problem unwrapping tweets")
             return cell
         }
-        cell.tweet = tweetsArray[indexPath.row]
+
+        let returnedTweet = tweetsArray[indexPath.row]
+        if let originalTweet = returnedTweet.retweeted_status {
+            guard let retweeter = returnedTweet.user else {
+                return cell
+            }
+            cell.retweeter = retweeter
+            cellTweet = originalTweet
+            print("is a retweet")
+        } else {
+            cellTweet = returnedTweet
+            print("not a retweet")
+        }
+        cell.tweet = cellTweet
         
         return cell
     }
@@ -66,7 +80,9 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     @IBAction func onTopButton(_ sender: Any) {
-        self.tweetsTableView.setContentOffset(CGPoint.zero, animated: true)
+        let indexPath = NSIndexPath(row: 0, section: 0) as IndexPath
+        self.tweetsTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        // self.tweetsTableView.setContentOffset(topPoint, animated: true)
     }
     
     @IBAction func onLogoutButton(_ sender: Any) {

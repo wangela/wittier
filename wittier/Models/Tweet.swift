@@ -41,6 +41,7 @@ class Tweet: NSObject {
     var timestamp: String?
     var relativeTimestamp: String?
     var detailTimestamp: String?
+    var retweeted_status: Tweet?
     
     init(dictionary: NSDictionary) {
         guard let userDict = dictionary["user"] as? NSDictionary else {
@@ -51,9 +52,8 @@ class Tweet: NSObject {
         
         id = dictionary["id"] as? Int64
         text = dictionary["text"] as? String
-        replyCount = (dictionary["reply_count"] as? Int) ?? 0
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
-        favoritesCount = (dictionary["favourites_count"] as? Int) ?? 0
+        favoritesCount = (dictionary["favorite_count"] as? Int) ?? 0
         retweeted = (dictionary["retweeted"] as? Bool) ?? false
         favorited = (dictionary["favorited"] as? Bool) ?? false
         
@@ -74,12 +74,20 @@ class Tweet: NSObject {
         formatter.pmSymbol = "PM"
         detailTimestamp = formatter.string(from: timestampDate)
         
+        guard let originalTweet = dictionary["retweeted_status"] else {
+            print("didn't find a retweet")
+            return
+        }
+        // retweeted_status = originalTweet
+        print("found a retweet")
+        
     }
     
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet] {
         var tweets = [Tweet]()
         
         for dictionary in dictionaries {
+            dump(dictionary)
             let tweet = Tweet(dictionary: dictionary)
             tweets.append(tweet)
         }
