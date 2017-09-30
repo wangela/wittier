@@ -2,7 +2,7 @@
 
 A simpler Twitter client for iOS
 
-Time spent: 16.5 hours spent in total
+Time spent: 22 hours spent in total
 
 ## User Stories
 
@@ -18,7 +18,7 @@ The following **required** functionality is completed:
 The following **optional** features are implemented:
 
 - [ ] When composing, you should have a countdown in the upper right for the tweet limit.
-- [ ] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network.
+- [x] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network.
 - [x] Retweeting and favoriting should increment the retweet and favorite count.
 - [x] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count.
 - [ ] Replies should be prefixed with the username and the reply_id should be set when posting the tweet.
@@ -27,7 +27,7 @@ The following **optional** features are implemented:
 The following **additional** features are implemented:
 - [x] Timestamps are displayed with relative date formatting
 - [ ] Display media in a tweet detail view
-- [ ] Label retweets and display the original tweet as primary in a RT
+- [x] Label retweets and display the original tweet as primary in a RT
 - [x] Button to easily return to the top
 - [x] Compose page has placeholder text to encourage text entry
 

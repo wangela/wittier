@@ -125,8 +125,11 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     
     internal func composeViewController(composeViewController: ComposeViewController, tweeted string: String) {
         composeViewController.dismiss(animated: true, completion: nil)
-        TwitterClient.sharedInstance.tweet(text: string)
-        refreshControlAction(refreshControl)
+        TwitterClient.sharedInstance.tweet(text: string, success: { (postedTweet: Tweet) -> Void in
+            self.refreshControlAction(self.refreshControl)
+        }, failure: { (error: Error) -> Void in
+            print(error.localizedDescription)
+        })
     }
 
 }

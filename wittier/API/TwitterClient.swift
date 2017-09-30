@@ -86,7 +86,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func tweet(text: String) {
+    func tweet(text: String, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
         print("tweet! \(text)")
         let params: [String: AnyObject] = ["status": text as AnyObject]
         print(params)
@@ -94,9 +94,11 @@ class TwitterClient: BDBOAuth1SessionManager {
             let tweetDict = response as! NSDictionary
             let tweet = Tweet(dictionary: tweetDict)
             print("\(tweet.timestamp)")
+            success(tweet)
         }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
             print("tweet task failed")
             print("error: \(error.localizedDescription)")
+            failure(error)
         })
     }
     

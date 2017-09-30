@@ -21,6 +21,7 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetView: UIView!
     @IBOutlet weak var retweeterLabel: UILabel!
     
+    var retweeter: User?
     var tweet: Tweet! {
         didSet {
             guard let user = tweet.user else {
@@ -41,25 +42,25 @@ class TweetCell: UITableViewCell {
                 return
             }
             profileImageView.setImageWith(profileURL)
+            
             if let retweetUser = retweeter {
-                retweeterLabel.text = "\(retweetUser.name) Retweeted"
+                if let retweeterName = retweetUser.name {
+                    retweeterLabel.text = "\(retweeterName) Retweeted"
+                } else {
+                    retweeterLabel.text = "Somebody Retweeted"
+                }
+                retweetView.isHidden = false
                 print("\(retweeterLabel.text)")
+            } else {
+                print("nil retweeter")
+                retweetView.isHidden = true
             }
 
         }
     }
-    var retweeter: User?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        if retweeter != nil {
-            print("retweeter exists")
-            retweetView.isHidden = false
-        } else {
-            print("nil retweeter")
-            retweetView.isHidden = true
-        }
         
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width * 0.5
         profileImageView.clipsToBounds = true
