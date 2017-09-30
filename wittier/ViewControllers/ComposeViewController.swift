@@ -14,6 +14,7 @@ import UIKit
 
 class ComposeViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var composeTextView: UITextView!
+    @IBOutlet weak var counterLabel: UILabel!
     
     weak var delegate: ComposeViewControllerDelegate?
     var new: Bool = true
@@ -27,8 +28,6 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         navigationItem.leftBarButtonItem = cancelButton
         new = true
         composeTextView.delegate = self
-        composeTextView.text = "Write here"
-        composeTextView.textColor = UIColor.lightGray
         composeTextView.clearsOnInsertion = true
         // composeTextView.inputAccessoryView = Bundle.main.loadNibNamed("ComposeAccessoryView", owner: self, options: nil) as! ComposeAccessoryView?
     }
@@ -62,11 +61,21 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
             composeTextView.textColor = UIColor.black
             new = false
         }
-        
         return true
     }
     
-    @IBAction func onCancelButton(_ sender: Any) {
+    func textViewDidChange(_ textView: UITextView) {
+        let length = composeTextView.text.count
+        let charsLeft = 140 - length
+        counterLabel.text = String(charsLeft)
+        if charsLeft < 20 {
+            counterLabel.textColor = UIColor.red
+        } else {
+            counterLabel.textColor = UIColor.darkGray
+        }
+    }
+    
+    func onCancelButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     

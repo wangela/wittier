@@ -52,7 +52,6 @@ class TweetCell: UITableViewCell {
                 retweetView.isHidden = false
                 print("\(retweeterLabel.text)")
             } else {
-                print("nil retweeter")
                 retweetView.isHidden = true
             }
 

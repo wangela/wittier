@@ -8,7 +8,11 @@
 
 import UIKit
 
-class TweetViewController: UIViewController {
+@objc protocol TweetViewControllerDelegate {
+    @objc optional func tweetViewController(tweetViewController: TweetViewController, tweeted string: String)
+}
+
+class TweetViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var scrollframeView: UIScrollView!
     @IBOutlet weak var boxView: UIView!
     @IBOutlet weak var profileImageView: UIImageView!
@@ -22,6 +26,11 @@ class TweetViewController: UIViewController {
     @IBOutlet weak var faveButton: UIButton!
     @IBOutlet weak var retweetView: UIView!
     @IBOutlet weak var retweeterLabel: UILabel!
+    @IBOutlet weak var replytweetView: UIView!
+    @IBOutlet weak var counterLabel: UILabel!
+    @IBOutlet weak var composeTextView: UITextView!
+    
+    weak var delegate: TweetViewControllerDelegate?
     
     var tweet: Tweet!
     var retweeter: User?
@@ -43,6 +52,7 @@ class TweetViewController: UIViewController {
             print("nil retweeter")
             retweetView.isHidden = true
         }
+        replytweetView.isHidden = true
 
         guard let user = tweet.user else {
             print("nil user")
@@ -51,6 +61,7 @@ class TweetViewController: UIViewController {
         displayNameLabel.text = user.name
         screennameLabel.text = user.screenname
         tweetLabel.text = tweet.text
+        tweetLabel.sizeToFit()
         timestampLabel.text = tweet.detailTimestamp
         let statsString = "\(tweet.retweetCount) Retweets  \(tweet.favoritesCount) Likes"
         statsLabel.text = statsString
@@ -95,6 +106,26 @@ class TweetViewController: UIViewController {
         } else {
             retweetButton.setImage(#imageLiteral(resourceName: "retweet-aaa"), for: .normal)
         }
+    }
+    
+    @IBAction func onReplyButton(_ sender: Any) {
+        guard let origUser = tweet.user else {
+            print("nil user")
+            return
+        }
+        let username = "\(origUser.screenname)"
+        let tweetButton = UIBarButtonItem(title: "Tweet", style: .plain, target: self, action: #selector(tweetReply(_:)))
+        navigationItem.rightBarButtonItem = tweetButton
+        replyButton.setImage(#imageLiteral(resourceName: "reply"), for: .normal)
+
+        composeTextView.text = "\(username)"
+        let length = username.count
+        DispatchQueue.main.async {
+            self.composeTextView.selectedRange = NSMakeRange(length, length)
+        }
+        replytweetView.isHidden = false
+        replytweetView.becomeFirstResponder()
+
     }
     
     @IBAction func onRetweetButton(_ sender: Any) {
@@ -155,6 +186,26 @@ class TweetViewController: UIViewController {
         }
     }
     
+    func textViewDidChange(_ textView: UITextView) {
+        let length = composeTextView.text.count
+        let charsLeft = 140 - length
+        counterLabel.text = String(charsLeft)
+        if charsLeft < 20 {
+            counterLabel.textColor = UIColor.red
+        } else {
+            counterLabel.textColor = UIColor.darkGray
+        }
+    }
+    
+    func tweetReply(_ sender: Any) {
+        guard let tweetText = composeTextView.text else {
+            print("nil tweet, canceling")
+            return
+        }
+        
+        delegate?.tweetViewController?(tweetViewController: self, tweeted: tweetText)
+        
+    }
 
     /*
     // MARK: - Navigation

@@ -29,6 +29,54 @@ extension Date {
     }
 }
 
+struct Entities {
+    struct Hashtag {
+        let text: String
+        let indices: [Int]
+        
+        init(dictionary: [String: Any]) {
+            self.text = dictionary["text"] as? String ?? ""
+            self.indices = dictionary["indices"] as? [Int] ?? [0, 0]
+        }
+    }
+    struct Mention {
+        let screenname: String
+        let name: String
+        let id: Int64
+        let indices: [Int]
+        
+        init(dictionary: [String: Any]) {
+            self.screenname = dictionary["screen_name"] as? String ?? ""
+            self.name = dictionary["name"] as? String ?? ""
+            self.id = dictionary["id"] as? Int64 ?? 0
+            self.indices = dictionary["indices"] as? [Int] ?? [0, 0]
+        }
+    }
+    struct Link {
+        let url: URL
+        let expandedURL: URL
+        let displayURL: URL
+        let indices: [Int]
+        
+        init(dictionary: [String: Any]) {
+            self.url = (dictionary["url"] as? URL ?? nil)!
+            self.expandedURL = (dictionary["expanded_url"] as? URL ?? nil)!
+            self.displayURL = (dictionary["dispaly_url"] as? URL ?? nil)!
+            self.indices = dictionary["indices"] as? [Int] ?? [0, 0]
+        }
+    }
+    
+    let hashtags: [Hashtag]?
+    let mentions: [Mention]?
+    let links: [Link]?
+    
+    init(dictionary: [String: Any]) {
+        self.hashtags = dictionary["hashtags"] as? [Entities.Hashtag] ?? nil
+        self.mentions = dictionary["mentions"] as? [Entities.Mention] ?? nil
+        self.links = dictionary["urls"] as? [Entities.Link] ?? nil
+    }
+}
+
 class Tweet: NSObject {
     var id: Int64?
     var user: User?
@@ -42,6 +90,7 @@ class Tweet: NSObject {
     var relativeTimestamp: String?
     var detailTimestamp: String?
     var retweeted_status: Tweet?
+    var entities: Entities?
     
     init(dictionary: NSDictionary) {
         guard let userDict = dictionary["user"] as? NSDictionary else {
@@ -69,7 +118,7 @@ class Tweet: NSObject {
             return
         }
         relativeTimestamp = timestampDate.relativeTime
-        formatter.dateFormat = "EEE MMM d, hh:mm:ss a"
+        formatter.dateFormat = "EEE MMM d, h:mm a"
         formatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
         detailTimestamp = formatter.string(from: timestampDate)
@@ -77,12 +126,32 @@ class Tweet: NSObject {
         if let ogTweetValue = dictionary["retweeted_status"] {
             let ogTweetDict = ogTweetValue as! NSDictionary
             retweeted_status = Tweet(dictionary: ogTweetDict)
-            print("found a retweet")
-        } else {
-            print("didn't find a retweet")
         }
 
-        
+        if let entitiesDict = dictionary["entities"] {
+            print("entities found")
+            let entitiesDictionary = entitiesDict as! [String: Any]
+            let entities = Entities(dictionary: entitiesDictionary)
+            if let hashtags = entities.hashtags {
+                print(hashtags)
+                for hashtag in hashtags {
+                    print("\(hashtags.count) hashtags found")
+                    print("changing hashtag text \(hashtag.text)")
+                }
+            }
+            if let mentions = entities.mentions {
+                print("\(mentions.count) mentions found")
+                for mention in mentions {
+                    print("changing mentions text \(mention.screenname)")
+                }
+            }
+            if let links = entities.links {
+                print("\(links.count) links found")
+                for link in links {
+                    print("changing links text \(link.displayURL)")
+                }
+            }
+        }
     }
     
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet] {

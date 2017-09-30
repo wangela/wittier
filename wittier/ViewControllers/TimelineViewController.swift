@@ -9,7 +9,7 @@
 import UIKit
 import MBProgressHUD
 
-class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate {
+class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate, TweetViewControllerDelegate {
     @IBOutlet weak var tweetsTableView: UITableView!
     
     var tweets: [Tweet]!
@@ -116,6 +116,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             if cell.retweeter != nil {
                 destinationVC.retweeter = cell.retweeter
             }
+            destinationVC.delegate = self
         }
         if segue.identifier == "compose" {
             let navigationController = segue.destination as! UINavigationController
@@ -124,6 +125,14 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             composeVC.delegate = self
 
         }
+    }
+    
+    internal func tweetViewController(tweetViewController: TweetViewController, tweeted string: String) {
+        TwitterClient.sharedInstance.tweet(text: string, success: { (postedTweet: Tweet) -> Void in
+            self.refreshControlAction(self.refreshControl)
+        }, failure: { (error: Error) -> Void in
+            print(error.localizedDescription)
+        })
     }
     
     internal func composeViewController(composeViewController: ComposeViewController, tweeted string: String) {
