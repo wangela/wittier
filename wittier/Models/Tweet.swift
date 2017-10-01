@@ -71,9 +71,30 @@ struct Entities {
     let links: [Link]?
     
     init(dictionary: [String: Any]) {
-        self.hashtags = dictionary["hashtags"] as? [Entities.Hashtag] ?? nil
-        self.mentions = dictionary["mentions"] as? [Entities.Mention] ?? nil
-        self.links = dictionary["urls"] as? [Entities.Link] ?? nil
+        if let hashtagsDicts = dictionary["hashtags"] as? [[String: Any]] {
+            var hashtagsArray: [Entities.Hashtag] = []
+            for dict in hashtagsDicts {
+                let nextHashtag = Entities.Hashtag(dictionary: dict)
+                hashtagsArray.append(nextHashtag)
+            }
+            self.hashtags = hashtagsArray
+        } else { self.hashtags = nil}
+        if let mentionsDicts = dictionary["mentions"] as? [[String: Any]] {
+            var mentionsArray: [Entities.Mention] = []
+            for dict in mentionsDicts {
+                let nextMention = Entities.Mention(dictionary: dict)
+                mentionsArray.append(nextMention)
+            }
+            self.mentions = mentionsArray
+        } else { self.mentions = nil }
+        if let linksDicts = dictionary["links"] as? [[String: Any]] {
+            var linksArray: [Entities.Link] = []
+            for dict in linksDicts {
+                let nextLink = Entities.Link(dictionary: dict)
+                linksArray.append(nextLink)
+            }
+            self.links = linksArray
+        } else { self.links = nil }
     }
 }
 
@@ -107,14 +128,14 @@ class Tweet: NSObject {
         favorited = (dictionary["favorited"] as? Bool) ?? false
         
         guard let timestampString = dictionary["created_at"] as? String else {
-            print("error unwrapping timestamp from json response")
+            print("bad timestamp")
             return
         }
         timestamp = timestampString
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
         guard let timestampDate = formatter.date(from: timestampString) else {
-            print("bad date")
+            print("bad timestamp")
             return
         }
         relativeTimestamp = timestampDate.relativeTime
@@ -126,6 +147,7 @@ class Tweet: NSObject {
         if let ogTweetValue = dictionary["retweeted_status"] {
             let ogTweetDict = ogTweetValue as! NSDictionary
             retweeted_status = Tweet(dictionary: ogTweetDict)
+
         }
 
         if let entitiesDict = dictionary["entities"] {

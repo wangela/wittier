@@ -2,7 +2,7 @@
 
 A simpler Twitter client for iOS
 
-Time spent: 25 hours spent in total
+Time spent: 26 hours spent in total
 
 ## User Stories
 

@@ -120,9 +120,10 @@ class TweetViewController: UIViewController, UITextViewDelegate {
 
         composeTextView.text = "\(username)"
         let length = username.count
-        DispatchQueue.main.async {
-            self.composeTextView.selectedRange = NSMakeRange(length, length)
-        }
+//        DispatchQueue.main.async {
+//            self.composeTextView.selectedRange = NSMakeRange(length, length)
+//        }
+        composeTextView.isHidden = false
         replytweetView.isHidden = false
         replytweetView.becomeFirstResponder()
 
