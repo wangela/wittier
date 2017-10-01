@@ -56,12 +56,15 @@ struct Entities {
         let url: URL
         let expandedURL: URL
         let displayURL: URL
-        let indices: [Int]
+        let indices: [Int]?
         
         init(dictionary: [String: Any]) {
-            self.url = (dictionary["url"] as? URL ?? nil)!
-            self.expandedURL = (dictionary["expanded_url"] as? URL ?? nil)!
-            self.displayURL = (dictionary["dispaly_url"] as? URL ?? nil)!
+            let urlString = dictionary["url"] as? String ?? ""
+            let expandedURLString = dictionary["expanded_url"] as? String ?? ""
+            let displayURLString = dictionary["display_url"] as? String ?? ""
+            self.url = URL(string: urlString)!
+            self.expandedURL = URL(string: expandedURLString)!
+            self.displayURL = URL(string: displayURLString)!
             self.indices = dictionary["indices"] as? [Int] ?? [0, 0]
         }
     }
@@ -79,20 +82,18 @@ struct Entities {
             }
             self.hashtags = hashtagsArray
         } else { self.hashtags = nil}
-        if let mentionsDicts = dictionary["mentions"] as? [[String: Any]] {
+        if let mentionsDicts = dictionary["user_mentions"] as? [[String: Any]] {
             var mentionsArray: [Entities.Mention] = []
             for dict in mentionsDicts {
-                print("mention")
                 let nextMention = Entities.Mention(dictionary: dict)
                 print("\(nextMention)")
                 mentionsArray.append(nextMention)
             }
             self.mentions = mentionsArray
         } else {
-            print("no mentions")
             self.mentions = nil
         }
-        if let linksDicts = dictionary["links"] as? [[String: Any]] {
+        if let linksDicts = dictionary["urls"] as? [[String: Any]] {
             var linksArray: [Entities.Link] = []
             for dict in linksDicts {
                 let nextLink = Entities.Link(dictionary: dict)
@@ -161,8 +162,9 @@ class Tweet: NSObject {
             let entities = Entities(dictionary: entitiesDictionary)
             if let hashtags = entities.hashtags {
                 print(hashtags)
+                print("\(hashtags.count) hashtags found")
                 for hashtag in hashtags {
-                    print("\(hashtags.count) hashtags found")
+                    print("#\(hashtag.text)")
                 }
             }
             if let mentions = entities.mentions {
