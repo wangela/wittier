@@ -55,16 +55,15 @@ struct Entities {
     struct Link {
         let url: URL
         let expandedURL: URL
-        let displayURL: URL
+        let displayURL: String
         let indices: [Int]?
         
         init(dictionary: [String: Any]) {
             let urlString = dictionary["url"] as? String ?? ""
             let expandedURLString = dictionary["expanded_url"] as? String ?? ""
-            let displayURLString = dictionary["display_url"] as? String ?? ""
             self.url = URL(string: urlString)!
             self.expandedURL = URL(string: expandedURLString)!
-            self.displayURL = URL(string: displayURLString)!
+            self.displayURL = dictionary["display_url"] as? String ?? ""
             self.indices = dictionary["indices"] as? [Int] ?? [0, 0]
         }
     }

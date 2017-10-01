@@ -62,8 +62,8 @@ class User: NSObject {
                 print("set new user")
 
             } else {
-                defaults.set(nil, forKey: "currentUserData")
-                print("set nil user")
+                defaults.removeObject(forKey: "currentUserData")
+                print("remove user")
             }
             defaults.synchronize()
         }

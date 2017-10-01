@@ -86,6 +86,8 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         profileImageView.layer.cornerRadius = 5
         profileImageView.clipsToBounds = true
         
+        composeTextView.delegate = self
+        
         scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 20)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -145,7 +147,6 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         let rtCount = tweet.retweetCount
         if rtState {
             TwitterClient.sharedInstance.unretweet(id: tweetID, success: { (newTweet: Tweet) -> Void in
-                self.tweet = newTweet
                 self.tweet.retweeted = !rtState
                 self.tweet.retweetCount = rtCount - 1
                 self.updateStats()
@@ -154,7 +155,6 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             })
         } else {
             TwitterClient.sharedInstance.retweet(id: tweetID, success: { (newTweet: Tweet) -> Void in
-                self.tweet = newTweet
                 self.tweet.retweeted = !rtState
                 self.tweet.retweetCount = rtCount + 1
                 self.updateStats()
@@ -174,7 +174,6 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         let faveCount = tweet.favoritesCount
         if faveState {
             TwitterClient.sharedInstance.unfave(id: tweetID, success: { (newTweet: Tweet) -> Void in
-                self.tweet = newTweet
                 self.tweet.favorited = !faveState
                 self.tweet.favoritesCount = faveCount - 1
                 self.updateStats()
@@ -183,7 +182,6 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             })
         } else {
             TwitterClient.sharedInstance.fave(id: tweetID, success: { (newTweet: Tweet) -> Void in
-                self.tweet = newTweet
                 self.tweet.favorited = !faveState
                 self.tweet.favoritesCount = faveCount + 1
                 self.updateStats()

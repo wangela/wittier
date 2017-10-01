@@ -75,11 +75,35 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     func homeTimeline(success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
-        let params: [String: AnyObject] = ["count": 5 as AnyObject]
+        let params: [String: AnyObject] = ["count": 20 as AnyObject]
         get("1.1/statuses/home_timeline.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
             let dictionaries = response as! [NSDictionary]
             let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
 
+            success(tweets)
+        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            failure(error)
+        })
+    }
+    
+    func infiniteTimeline(max_id: Int64, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        let params: [String: AnyObject] = ["count": 20 as AnyObject, "max_id": max_id as AnyObject]
+        get("1.1/statuses/home_timeline.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
+            let dictionaries = response as! [NSDictionary]
+            let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
+            
+            success(tweets)
+        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            failure(error)
+        })
+    }
+    
+    func refreshTimeline(since_id: Int64, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        let params: [String: AnyObject] = ["count": 20 as AnyObject, "since_id": since_id as AnyObject]
+        get("1.1/statuses/home_timeline.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
+            let dictionaries = response as! [NSDictionary]
+            let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
+            
             success(tweets)
         }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
             failure(error)

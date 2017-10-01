@@ -9,12 +9,17 @@
 import UIKit
 import MBProgressHUD
 
-class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate, TweetViewControllerDelegate {
+class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ComposeViewControllerDelegate, TweetViewControllerDelegate {
     @IBOutlet weak var tweetsTableView: UITableView!
     
     var tweets: [Tweet]!
-    let refreshControl = UIRefreshControl()
+    var max_id: Int64 = 0
+    var since_id: Int64 = 0
     
+    let refreshControl = UIRefreshControl()
+    var isMoreDataLoading = false
+    var loadingMoreView: InfiniteScrollActivityView?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,11 +32,24 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         tweetsTableView.rowHeight = UITableViewAutomaticDimension
         tweetsTableView.estimatedRowHeight = 300
         
+        let frame = CGRect(x: 0, y: tweetsTableView.contentSize.height, width: tweetsTableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.isHidden = true
+        tweetsTableView.addSubview(loadingMoreView!)
+        
+        var insets = tweetsTableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        tweetsTableView.contentInset = insets
+        
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         tweetsTableView.insertSubview(refreshControl, at: 0)
         
         TwitterClient.sharedInstance.homeTimeline(success: { (tweets: [Tweet]) -> () in
             self.tweets = tweets
+            let lastID: Int64 = self.tweets[self.tweets.endIndex - 1].id!
+            self.max_id = lastID - 1
+            let firstID: Int64 = self.tweets[0].id!
+            self.since_id = firstID
             self.tweetsTableView.reloadData()
             self.tweetsTableView.isHidden = false
             MBProgressHUD.hide(for: self.view, animated: true)
@@ -49,7 +67,9 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        if let tweetsArray = tweets {
+            return tweetsArray.count
+        } else { return 0 }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,20 +88,56 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             }
             cell.retweeter = retweeter
             cellTweet = originalTweet
-            print("is a retweet")
         } else {
             cell.retweeter = nil
             cellTweet = returnedTweet
-            print("not a retweet")
         }
         cell.tweet = cellTweet
         
         return cell
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tweetsTableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tweetsTableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(tweetsTableView.contentOffset.y > scrollOffsetThreshold && tweetsTableView.isDragging) {
+                isMoreDataLoading = true
+                
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRect(x: 0, y: tweetsTableView.contentSize.height, width: tweetsTableView.bounds.size.width, height: InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
+                loadMoreTweets()
+                
+            }
+        }
+    }
+        
+    func loadMoreTweets() {
+        TwitterClient.sharedInstance.infiniteTimeline(max_id: max_id, success: { (tweets: [Tweet]) -> () in
+            self.tweets.append(contentsOf: tweets)
+            let lastID: Int64 = self.tweets[self.tweets.endIndex - 1].id!
+            self.max_id = lastID - 1
+            self.isMoreDataLoading = false
+            // Stop the loading indicator
+            self.loadingMoreView!.stopAnimating()
+            self.tweetsTableView.reloadData()
+        }, failure: {(error: Error) -> () in
+            print(error.localizedDescription)
+        })
+    }
+            
+    
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
-        TwitterClient.sharedInstance.homeTimeline(success: { (tweets: [Tweet]) -> () in
-            self.tweets = tweets
+        TwitterClient.sharedInstance.refreshTimeline(since_id: since_id, success: { (tweets: [Tweet]) -> () in
+            self.tweets.insert(contentsOf: tweets, at: 0)
+            let firstID: Int64 = self.tweets[0].id!
+            self.since_id = firstID
             self.tweetsTableView.reloadData()
             refreshControl.endRefreshing()
         }, failure: {(error: Error) -> () in

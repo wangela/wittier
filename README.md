@@ -2,7 +2,7 @@
 
 A simpler Twitter client for iOS
 
-Time spent: 26 hours spent in total
+Time spent: 31 hours spent in total
 
 ## User Stories
 
@@ -21,28 +21,31 @@ The following **optional** features are implemented:
 - [x] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network.
 - [x] Retweeting and favoriting should increment the retweet and favorite count.
 - [x] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count.
-- [ ] Replies should be prefixed with the username and the reply_id should be set when posting the tweet.
-- [ ] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
+- [x] Replies should be prefixed with the username and the reply_id should be set when posting the tweet.
+- [x] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
 
 The following **additional** features are implemented:
 - [x] Timestamps are displayed with relative date formatting
-- [ ] Display hyperlinks, mentions, and hashtags in blue
-- [ ] Display media in a tweet detail view
 - [x] Label retweets and display the original tweet as primary in a RT, in both Home timeline and Detail screen
 - [x] Button to easily return to the top
 - [x] Compose page has placeholder text to encourage text entry
+- [ ] Display hyperlinks, mentions, and hashtags in blue
+- [ ] Display media in a tweet detail view
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='anim_wittier_v1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
+The foundation for displaying entities is in there, but since we haven't implemented timelines based on search or profile views yet I will defer the entities hyperlinking and displaying until next week.
 
+I would like to learn better documentation patterns in comments.
+I felt I could have done better with deferring logic to models; the VC code is...a medium amount of bulky.
 
 ## License
 Credits:

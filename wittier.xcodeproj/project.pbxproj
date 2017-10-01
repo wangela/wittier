@@ -21,6 +21,7 @@
 		774B77AE1F7B0DDE001314BD /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B77AD1F7B0DDE001314BD /* TimelineViewController.swift */; };
 		774B77B41F7B11AB001314BD /* TwitterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B77B31F7B11AB001314BD /* TwitterClient.swift */; };
 		775C61E41F7B02EA00679D56 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775C61E31F7B02EA00679D56 /* User.swift */; };
+		775D1F281F80DB100038ACF4 /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775D1F271F80DB100038ACF4 /* InfiniteScrollActivityView.swift */; };
 		77A2D8A01F7B285E009EB2DF /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A2D89F1F7B285E009EB2DF /* TweetCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,7 @@
 		774B77AD1F7B0DDE001314BD /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		774B77B31F7B11AB001314BD /* TwitterClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterClient.swift; sourceTree = "<group>"; };
 		775C61E31F7B02EA00679D56 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		775D1F271F80DB100038ACF4 /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
 		77A2D89F1F7B285E009EB2DF /* TweetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
 		7A6C4867E49A2236E7EA10BE /* Pods-wittier.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wittier.release.xcconfig"; path = "Pods/Target Support Files/Pods-wittier/Pods-wittier.release.xcconfig"; sourceTree = "<group>"; };
 		AE3E3F4D43A332218306ACF0 /* Pods-wittier.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wittier.debug.xcconfig"; path = "Pods/Target Support Files/Pods-wittier/Pods-wittier.debug.xcconfig"; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				77A2D89F1F7B285E009EB2DF /* TweetCell.swift */,
 				7714CCF41F7CE7A700993431 /* ComposeAccessoryView.swift */,
 				7714CCF61F7CEA9D00993431 /* ComposeToolbar.swift */,
+				775D1F271F80DB100038ACF4 /* InfiniteScrollActivityView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				775D1F281F80DB100038ACF4 /* InfiniteScrollActivityView.swift in Sources */,
 				774848FE1F7B76BB00D349DC /* ComposeViewController.swift in Sources */,
 				774B77AA1F7B0508001314BD /* LoginViewController.swift in Sources */,
 				77A2D8A01F7B285E009EB2DF /* TweetCell.swift in Sources */,

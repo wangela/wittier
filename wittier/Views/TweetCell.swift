@@ -28,11 +28,9 @@ class TweetCell: UITableViewCell {
                 print("nil user")
                 return
             }
-            print("\(user.name)")
             displayNameLabel.text = user.name
             screennameLabel.text = user.screenname
             tweetLabel.text = tweet.text
-            print("\(tweetLabel.text)")
             timestampLabel.text = tweet.relativeTimestamp
             rtCountLabel.text = "\(tweet.retweetCount)"
             favCountLabel.text = "\(tweet.favoritesCount)"
@@ -50,7 +48,6 @@ class TweetCell: UITableViewCell {
                     retweeterLabel.text = "Somebody Retweeted"
                 }
                 retweetView.isHidden = false
-                print("\(retweeterLabel.text)")
             } else {
                 retweetView.isHidden = true
             }
