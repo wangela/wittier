@@ -70,6 +70,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             cellTweet = originalTweet
             print("is a retweet")
         } else {
+            cell.retweeter = nil
             cellTweet = returnedTweet
             print("not a retweet")
         }
@@ -127,8 +128,9 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
-    internal func tweetViewController(tweetViewController: TweetViewController, tweeted string: String) {
-        TwitterClient.sharedInstance.tweet(text: string, success: { (postedTweet: Tweet) -> Void in
+    internal func tweetViewController(tweetViewController: TweetViewController, replyto id: Int64, tweeted string: String) {
+        TwitterClient.sharedInstance.reply(text: string, id: id, success: { (postedTweet: Tweet) -> Void in
+            _ = self.navigationController?.popViewController(animated: true)
             self.refreshControlAction(self.refreshControl)
         }, failure: { (error: Error) -> Void in
             print(error.localizedDescription)

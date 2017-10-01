@@ -9,7 +9,7 @@
 import UIKit
 
 @objc protocol TweetViewControllerDelegate {
-    @objc optional func tweetViewController(tweetViewController: TweetViewController, tweeted string: String)
+    @objc optional func tweetViewController(tweetViewController: TweetViewController, replyto id: Int64, tweeted string: String)
 }
 
 class TweetViewController: UIViewController, UITextViewDelegate {
@@ -29,6 +29,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var replytweetView: UIView!
     @IBOutlet weak var counterLabel: UILabel!
     @IBOutlet weak var composeTextView: UITextView!
+    @IBOutlet weak var contentView: UIView!
     
     weak var delegate: TweetViewControllerDelegate?
     
@@ -86,6 +87,8 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         profileImageView.clipsToBounds = true
         
         scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 20)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -113,19 +116,22 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             print("nil user")
             return
         }
-        let username = "\(origUser.screenname)"
+        var username = "\(origUser.screenname) "
+        if let rtUser = retweeter {
+            username.append("\(rtUser.screenname) ")
+        }
         let tweetButton = UIBarButtonItem(title: "Tweet", style: .plain, target: self, action: #selector(tweetReply(_:)))
         navigationItem.rightBarButtonItem = tweetButton
         replyButton.setImage(#imageLiteral(resourceName: "reply"), for: .normal)
 
         composeTextView.text = "\(username)"
         let length = username.count
-//        DispatchQueue.main.async {
-//            self.composeTextView.selectedRange = NSMakeRange(length, length)
-//        }
-        composeTextView.isHidden = false
+        DispatchQueue.main.async {
+            self.composeTextView.selectedRange = NSMakeRange(length, length)
+        }
         replytweetView.isHidden = false
-        replytweetView.becomeFirstResponder()
+        scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 20)
+        composeTextView.becomeFirstResponder()
 
     }
     
@@ -187,6 +193,27 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            var contentInset: UIEdgeInsets = self.scrollframeView.contentInset
+            contentInset.bottom = keyboardSize.height
+            self.scrollframeView.contentInset = contentInset
+            if self.contentView.frame.origin.y == 0 {
+                self.contentView.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            let contentInset: UIEdgeInsets = UIEdgeInsets.zero
+            self.scrollframeView.contentInset = contentInset
+            if self.contentView.frame.origin.y != 0 {
+                self.contentView.frame.origin.y += keyboardSize.height
+            }
+        }
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         let length = composeTextView.text.count
         let charsLeft = 140 - length
@@ -204,7 +231,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             return
         }
         
-        delegate?.tweetViewController?(tweetViewController: self, tweeted: tweetText)
+        delegate?.tweetViewController?(tweetViewController: self, replyto: tweet.id!, tweeted: tweetText)
         
     }
 

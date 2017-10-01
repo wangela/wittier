@@ -82,11 +82,16 @@ struct Entities {
         if let mentionsDicts = dictionary["mentions"] as? [[String: Any]] {
             var mentionsArray: [Entities.Mention] = []
             for dict in mentionsDicts {
+                print("mention")
                 let nextMention = Entities.Mention(dictionary: dict)
+                print("\(nextMention)")
                 mentionsArray.append(nextMention)
             }
             self.mentions = mentionsArray
-        } else { self.mentions = nil }
+        } else {
+            print("no mentions")
+            self.mentions = nil
+        }
         if let linksDicts = dictionary["links"] as? [[String: Any]] {
             var linksArray: [Entities.Link] = []
             for dict in linksDicts {
@@ -158,7 +163,6 @@ class Tweet: NSObject {
                 print(hashtags)
                 for hashtag in hashtags {
                     print("\(hashtags.count) hashtags found")
-                    print("changing hashtag text \(hashtag.text)")
                 }
             }
             if let mentions = entities.mentions {
