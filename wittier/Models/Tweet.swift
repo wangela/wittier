@@ -185,7 +185,6 @@ class Tweet: NSObject {
         var tweets = [Tweet]()
         
         for dictionary in dictionaries {
-            dump(dictionary)
             let tweet = Tweet(dictionary: dictionary)
             tweets.append(tweet)
         }

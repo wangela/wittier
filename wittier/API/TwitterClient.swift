@@ -44,10 +44,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     
     func handleOpenURL(url: URL) {
         let requestToken = BDBOAuth1Credential(queryString: url.query)
-        print("opening request token URL")
         fetchAccessToken(withPath: "https://api.twitter.com/oauth/access_token", method: "POST", requestToken: requestToken, success: { (accessToken: BDBOAuth1Credential!) -> Void in
-            print("\(accessToken.token)")
-            print("\(accessToken.secret)")
             
             self.currentAccount(success: { (user: User) -> () in
                 User.currentUser = user
@@ -57,9 +54,9 @@ class TwitterClient: BDBOAuth1SessionManager {
             })
 
         }, failure: { (error: Error?) -> Void in
-            print("\(error?.localizedDescription)")
+            print("\(String(describing: error?.localizedDescription))")
             self.loginFailure?(error!)
-        })
+            })
     }
     
     func currentAccount(success: @escaping (User) -> (), failure: (Error) -> ()) {
@@ -117,7 +114,6 @@ class TwitterClient: BDBOAuth1SessionManager {
         self.post("1.1/statuses/update.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
             let tweetDict = response as! NSDictionary
             let tweet = Tweet(dictionary: tweetDict)
-            print("\(tweet.timestamp)")
             success(tweet)
         }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
             print("tweet task failed")
@@ -133,7 +129,6 @@ class TwitterClient: BDBOAuth1SessionManager {
         self.post("1.1/statuses/update.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
             let tweetDict = response as! NSDictionary
             let tweet = Tweet(dictionary: tweetDict)
-            print("\(tweet.relativeTimestamp)")
             success(tweet)
         }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
             print("tweet task failed")
