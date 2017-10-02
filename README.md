@@ -2,7 +2,7 @@
 
 A simpler Twitter client for iOS
 
-Time spent: 31 hours spent in total
+Time spent: 32 hours spent in total
 
 ## User Stories
 
@@ -29,6 +29,7 @@ The following **additional** features are implemented:
 - [x] Label retweets and display the original tweet as primary in a RT, in both Home timeline and Detail screen
 - [x] Button to easily return to the top
 - [x] Compose page has placeholder text to encourage text entry
+- [x] Enable buttons in timeline for each tweet cell to retweet, favorite, and reply.
 - [ ] Display hyperlinks, mentions, and hashtags in blue
 - [ ] Display media in a tweet detail view
 
