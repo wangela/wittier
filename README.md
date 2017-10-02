@@ -29,6 +29,7 @@ The following **additional** features are implemented:
 - [x] Label retweets and display the original tweet as primary in a RT, in both Home timeline and Detail screen
 - [x] Button to easily return to the top
 - [x] Compose page has placeholder text to encourage text entry
+- [x] Countdown label turns red within 20 characters of limit
 - [x] Enable buttons in timeline for each tweet cell to retweet, favorite, and reply.
 - [ ] Display hyperlinks, mentions, and hashtags in blue
 - [ ] Display media in a tweet detail view
