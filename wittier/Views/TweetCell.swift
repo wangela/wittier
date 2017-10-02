@@ -41,10 +41,14 @@ class TweetCell: UITableViewCell {
             timestampLabel.text = tweet.relativeTimestamp
             if tweet.retweeted {
                 retweetButton.setImage(#imageLiteral(resourceName: "retweet"), for: .normal)
+            } else {
+                retweetButton.setImage(#imageLiteral(resourceName: "retweet-aaa"), for: .normal)
             }
             rtCountLabel.text = "\(tweet.retweetCount)"
             if tweet.favorited {
                 favoriteButton.setImage(#imageLiteral(resourceName: "favorite-blk"), for: .normal)
+            } else {
+                favoriteButton.setImage(#imageLiteral(resourceName: "favorite-aaa"), for: .normal)
             }
             favCountLabel.text = "\(tweet.favoritesCount)"
             guard let profileURL = user.profileURL else {
@@ -97,6 +101,7 @@ class TweetCell: UITableViewCell {
             TwitterClient.sharedInstance.unretweet(id: tweetID, success: { (newTweet: Tweet) -> Void in
                 self.tweet.retweeted = !rtState
                 self.tweet.retweetCount = rtCount - 1
+                self.retweetButton.setImage(#imageLiteral(resourceName: "retweet-aaa"), for: .normal)
                 self.rtCountLabel.text = "\(self.tweet.retweetCount)"
             }, failure: { (error: Error) -> Void in
                 print("\(error.localizedDescription)")
@@ -105,6 +110,7 @@ class TweetCell: UITableViewCell {
             TwitterClient.sharedInstance.retweet(id: tweetID, success: { (newTweet: Tweet) -> Void in
                 self.tweet.retweeted = !rtState
                 self.tweet.retweetCount = rtCount + 1
+                self.retweetButton.setImage(#imageLiteral(resourceName: "retweet"), for: .normal)
                 self.rtCountLabel.text = "\(self.tweet.retweetCount)"
                 
             }, failure: { (error: Error) -> Void in
