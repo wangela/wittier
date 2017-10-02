@@ -9,7 +9,7 @@
 import UIKit
 import MBProgressHUD
 
-class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ComposeViewControllerDelegate, TweetViewControllerDelegate {
+class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     @IBOutlet weak var tweetsTableView: UITableView!
     
     var tweets: [Tweet]!
@@ -74,6 +74,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tweetsTableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
+        cell.delegate = self
         var cellTweet: Tweet
         
         guard let tweetsArray = tweets else {
@@ -165,7 +166,27 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detail" {
+        guard let segueID = segue.identifier else {
+            print("segue triggered with nil identifier")
+            return
+        }
+        switch segueID {
+        case "compose":
+            let navigationController = segue.destination as! UINavigationController
+            let composeVC = navigationController.topViewController as! ComposeViewController
+            
+            composeVC.delegate = self
+        case "reply":
+            let cell = sender as! TweetCell
+            let destinationVC = segue.destination as! TweetViewController
+            
+            destinationVC.tweet = cell.tweet
+            if cell.retweeter != nil {
+                destinationVC.retweeter = cell.retweeter
+            }
+            destinationVC.replying = true
+            destinationVC.delegate = self
+        case "detail":
             let cell = sender as! TweetCell
             let destinationVC = segue.destination as! TweetViewController
             
@@ -174,13 +195,8 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
                 destinationVC.retweeter = cell.retweeter
             }
             destinationVC.delegate = self
-        }
-        if segue.identifier == "compose" {
-            let navigationController = segue.destination as! UINavigationController
-            let composeVC = navigationController.topViewController as! ComposeViewController
-            
-            composeVC.delegate = self
-
+        default:
+            print("segue triggered with no identifier")
         }
     }
     
@@ -200,6 +216,10 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         }, failure: { (error: Error) -> Void in
             print(error.localizedDescription)
         })
+    }
+    
+    internal func replyButtonTapped(tweetCell: TweetCell) {
+        performSegue(withIdentifier: "reply", sender: tweetCell)
     }
 
 }

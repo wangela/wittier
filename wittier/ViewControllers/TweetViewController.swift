@@ -13,6 +13,7 @@ import UIKit
 }
 
 class TweetViewController: UIViewController, UITextViewDelegate {
+    // maintweetView outlets
     @IBOutlet weak var scrollframeView: UIScrollView!
     @IBOutlet weak var boxView: UIView!
     @IBOutlet weak var profileImageView: UIImageView!
@@ -24,17 +25,27 @@ class TweetViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var replyButton: UIButton!
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var faveButton: UIButton!
+    
+    // rewteetView outlets
     @IBOutlet weak var retweetView: UIView!
     @IBOutlet weak var retweeterLabel: UILabel!
     @IBOutlet weak var replytweetView: UIView!
+    @IBOutlet weak var retweetTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var retweeterDisplayConstraint: NSLayoutConstraint!
+    
+    // replytweetView outlets
     @IBOutlet weak var counterLabel: UILabel!
     @IBOutlet weak var composeTextView: UITextView!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet var counterTopContstraint: NSLayoutConstraint!
+    @IBOutlet var composeCounterConstraint: NSLayoutConstraint!
+    @IBOutlet var bottomComposeConstraint: NSLayoutConstraint!
     
     weak var delegate: TweetViewControllerDelegate?
     
     var tweet: Tweet!
     var retweeter: User?
+    var replying: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,15 +56,17 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             if let retweeterName = retweetUser.name {
                 retweeterLabel.text = "\(retweeterName) Retweeted"
             } else {
-                retweeterLabel.text = "Somebody Retweeted"
+                retweeterLabel.text = "Somebody Retweeted" // shouldn't happen
             }
             retweetView.isHidden = false
+            retweetTopConstraint.isActive = true
+            retweeterDisplayConstraint.isActive = true
         } else {
-            print("nil retweeter")
             retweetView.isHidden = true
+            retweetTopConstraint.isActive = false
+            retweeterDisplayConstraint.isActive = false
         }
-        replytweetView.isHidden = true
-
+        
         guard let user = tweet.user else {
             print("nil user")
             return
@@ -90,6 +103,13 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 20)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        if replying {
+            onReplyButton(replyButton)
+        } else {
+            replytweetView.isHidden = true
+            NSLayoutConstraint.deactivate([counterTopContstraint, composeCounterConstraint, bottomComposeConstraint])
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -131,6 +151,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             self.composeTextView.selectedRange = NSMakeRange(length, length)
         }
         replytweetView.isHidden = false
+        NSLayoutConstraint.activate([counterTopContstraint, composeCounterConstraint, bottomComposeConstraint])
         scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 20)
         composeTextView.becomeFirstResponder()
 
