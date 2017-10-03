@@ -8,27 +8,6 @@
 
 import UIKit
 
-extension Date {
-    var yearsFromNow:   Int { return Calendar.current.dateComponents([.year],       from: self, to: Date()).year        ?? 0 }
-    var monthsFromNow:  Int { return Calendar.current.dateComponents([.month],      from: self, to: Date()).month       ?? 0 }
-    var weeksFromNow:   Int { return Calendar.current.dateComponents([.weekOfYear], from: self, to: Date()).weekOfYear  ?? 0 }
-    var daysFromNow:    Int { return Calendar.current.dateComponents([.day],        from: self, to: Date()).day         ?? 0 }
-    var hoursFromNow:   Int { return Calendar.current.dateComponents([.hour],       from: self, to: Date()).hour        ?? 0 }
-    var minutesFromNow: Int { return Calendar.current.dateComponents([.minute],     from: self, to: Date()).minute      ?? 0 }
-    var secondsFromNow: Int { return Calendar.current.dateComponents([.second],     from: self, to: Date()).second      ?? 0 }
-    var relativeTime: String {
-        if yearsFromNow   > 0 { return "\(yearsFromNow) year"    + (yearsFromNow    > 1 ? "s" : "") + " ago" }
-        if monthsFromNow  > 0 { return "\(monthsFromNow) month"  + (monthsFromNow   > 1 ? "s" : "") + " ago" }
-        if weeksFromNow   > 0 { return "\(weeksFromNow) week"    + (weeksFromNow    > 1 ? "s" : "") + " ago" }
-        if daysFromNow    > 0 { return daysFromNow == 1 ? "Yesterday" : "\(daysFromNow) days ago" }
-        if hoursFromNow   > 0 { return "\(hoursFromNow) hour"     + (hoursFromNow   > 1 ? "s" : "") + " ago" }
-        if minutesFromNow > 0 { return "\(minutesFromNow) minute" + (minutesFromNow > 1 ? "s" : "") + " ago" }
-        if secondsFromNow > 0 { return secondsFromNow < 15 ? "Just now"
-            : "\(secondsFromNow) second" + (secondsFromNow > 1 ? "s" : "") + " ago" }
-        return ""
-    }
-}
-
 struct Entities {
     struct Hashtag {
         let text: String
@@ -107,18 +86,17 @@ class Tweet: NSObject {
     var id: Int64?
     var user: User?
     var text: String?
-    var replyCount: Int = 0
     var retweetCount: Int = 0
     var favoritesCount: Int = 0
     var retweeted: Bool = false
     var favorited: Bool = false
     var timestamp: String?
-    var relativeTimestamp: String?
-    var detailTimestamp: String?
-    var retweeted_status: Tweet?
+    var retweetedStatus: Tweet?
     var entities: Entities?
+    var prettyText: NSAttributedString?
     
     init(dictionary: NSDictionary) {
+        super.init()
         guard let userDict = dictionary["user"] as? NSDictionary else {
             print("error unwrapping user from tweet")
             return
@@ -137,48 +115,43 @@ class Tweet: NSObject {
             return
         }
         timestamp = timestampString
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
-        guard let timestampDate = formatter.date(from: timestampString) else {
-            print("bad timestamp")
-            return
-        }
-        relativeTimestamp = timestampDate.relativeTime
-        formatter.dateFormat = "EEE MMM d, h:mm a"
-        formatter.amSymbol = "AM"
-        formatter.pmSymbol = "PM"
-        detailTimestamp = formatter.string(from: timestampDate)
         
         if let ogTweetValue = dictionary["retweeted_status"] {
             let ogTweetDict = ogTweetValue as! NSDictionary
-            retweeted_status = Tweet(dictionary: ogTweetDict)
+            retweetedStatus = Tweet(dictionary: ogTweetDict)
 
         }
-
+        
         if let entitiesDict = dictionary["entities"] {
             print("entities found")
             let entitiesDictionary = entitiesDict as! [String: Any]
-            let entities = Entities(dictionary: entitiesDictionary)
-            if let hashtags = entities.hashtags {
-                print(hashtags)
-                print("\(hashtags.count) hashtags found")
-                for hashtag in hashtags {
-                    print("#\(hashtag.text)")
-                }
-            }
-            if let mentions = entities.mentions {
-                print("\(mentions.count) mentions found")
-                for mention in mentions {
-                    print("changing mentions text \(mention.screenname)")
-                }
-            }
-            if let links = entities.links {
-                print("\(links.count) links found")
-                for link in links {
-                    print("changing links text \(link.displayURL)")
-                }
+            entities = Entities(dictionary: entitiesDictionary)
+            getFormattedText(text: text!, myEntities: entities!)
+        }
+    }
+    
+    func getFormattedText(text: String, myEntities: Entities) {
+        var attrString: NSAttributedString = NSAttributedString.init()
+        if let hashtags = myEntities.hashtags {
+            print(hashtags)
+            print("\(hashtags.count) hashtags found")
+            for hashtag in hashtags {
+                print("#\(hashtag.text)")
             }
         }
+        if let mentions = myEntities.mentions {
+            print("\(mentions.count) mentions found")
+            for mention in mentions {
+                print("changing mentions text \(mention.screenname)")
+            }
+        }
+        if let links = myEntities.links {
+            print("\(links.count) links found")
+            for link in links {
+                print("changing links text \(link.displayURL)")
+            }
+        }
+        prettyText = attrString
     }
     
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet] {
@@ -191,4 +164,5 @@ class Tweet: NSObject {
         
         return tweets
     }
+    
 }

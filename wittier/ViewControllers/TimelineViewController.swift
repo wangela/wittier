@@ -83,7 +83,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         }
 
         let returnedTweet = tweetsArray[indexPath.row]
-        if let originalTweet = returnedTweet.retweeted_status {
+        if let originalTweet = returnedTweet.retweetedStatus {
             guard let retweeter = returnedTweet.user else {
                 return cell
             }

@@ -50,8 +50,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        boxView.layer.cornerRadius = 5
-        
+        // If this is a retweet, show the retweet view
         if let retweetUser = retweeter {
             if let retweeterName = retweetUser.name {
                 retweeterLabel.text = "\(retweeterName) Retweeted"
@@ -67,6 +66,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             retweeterDisplayConstraint.isActive = false
         }
         
+        // Populate basic tweet display
         guard let user = tweet.user else {
             print("nil user")
             return
@@ -75,7 +75,28 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         screennameLabel.text = user.screenname
         tweetLabel.text = tweet.text
         tweetLabel.sizeToFit()
-        timestampLabel.text = tweet.detailTimestamp
+        
+        if let profileURL = user.profileURL {
+            profileImageView.setImageWith(profileURL)
+        } else {
+            profileImageView.image = nil
+        }
+        profileImageView.layer.cornerRadius = 5
+        profileImageView.clipsToBounds = true
+        
+        // Build formatted date
+        if let timestamp = tweet.timestamp {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEE MMM d, h:mm a"
+            formatter.amSymbol = "AM"
+            formatter.pmSymbol = "PM"
+            if let timestampDate = formatter.date(from: timestamp) {
+                let detailTimestamp = formatter.string(from: timestampDate)
+                timestampLabel.text = detailTimestamp
+            }
+        }
+        
+        // Build stats string
         let statsString = "\(tweet.retweetCount) Retweets  \(tweet.favoritesCount) Likes"
         statsLabel.text = statsString
         if tweet.favorited {
@@ -89,21 +110,14 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             retweetButton.setImage(#imageLiteral(resourceName: "retweet-aaa"), for: .normal)
         }
         
-        guard let profileURL = user.profileURL else {
-            print("nil profile image")
-            profileImageView.image = nil
-            return
-        }
-        profileImageView.setImageWith(profileURL)
-        profileImageView.layer.cornerRadius = 5
-        profileImageView.clipsToBounds = true
-        
-        composeTextView.delegate = self
-        
+        // View setup
+        boxView.layer.cornerRadius = 5
         scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 20)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
+        // If the user wants to reply
+        composeTextView.delegate = self
         if replying {
             onReplyButton(replyButton)
         } else {
