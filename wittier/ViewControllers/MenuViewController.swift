@@ -20,7 +20,7 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         menuTableView.delegate = self
         menuTableView.dataSource = self
         
-        let storyboard = UIStoryboard(name: "main", bundle: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let composeNavigationController = storyboard.instantiateViewController(withIdentifier: "ComposeNavigationController")
         let homeNavigationController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
         

@@ -51,26 +51,10 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
         // If this is a retweet, show the retweet view
-        if let retweetUser = retweeter {
-            if let retweeterName = retweetUser.name {
-                retweeterLabel.text = "\(retweeterName) Retweeted"
-            } else {
-                retweeterLabel.text = "Somebody Retweeted" // shouldn't happen
-            }
-            retweetView.isHidden = false
-            retweetTopConstraint.isActive = true
-            retweeterDisplayConstraint.isActive = true
-        } else {
-            retweetView.isHidden = true
-            retweetTopConstraint.isActive = false
-            retweeterDisplayConstraint.isActive = false
-        }
+        showOrHideRetweet()
         
         // Populate basic tweet display
-        guard let user = tweet.user else {
-            print("nil user")
-            return
-        }
+        guard let user = tweet.user else { return }
         displayNameLabel.text = user.name
         screennameLabel.text = user.screenname
         tweetLabel.text = tweet.text
@@ -85,30 +69,17 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         profileImageView.clipsToBounds = true
         
         // Build formatted date
-        if let timestamp = tweet.timestamp {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "EEE MMM d, h:mm a"
-            formatter.amSymbol = "AM"
-            formatter.pmSymbol = "PM"
-            if let timestampDate = formatter.date(from: timestamp) {
-                let detailTimestamp = formatter.string(from: timestampDate)
-                timestampLabel.text = detailTimestamp
-            }
-        }
+        guard let timestamp = tweet.timestamp else { return }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE MMM d, h:mm a"
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        guard let timestampDate = formatter.date(from: timestamp) else { return }
+        let detailTimestamp = formatter.string(from: timestampDate)
+        timestampLabel.text = detailTimestamp
         
         // Build stats string
-        let statsString = "\(tweet.retweetCount) Retweets  \(tweet.favoritesCount) Likes"
-        statsLabel.text = statsString
-        if tweet.favorited {
-            faveButton.setImage(#imageLiteral(resourceName: "favorite-blk"), for: .normal)
-        } else {
-            faveButton.setImage(#imageLiteral(resourceName: "favorite-aaa"), for: .normal)
-        }
-        if tweet.retweeted {
-            retweetButton.setImage(#imageLiteral(resourceName: "retweet"), for: .normal)
-        } else {
-            retweetButton.setImage(#imageLiteral(resourceName: "retweet-aaa"), for: .normal)
-        }
+        updateStats()
         
         // View setup
         boxView.layer.cornerRadius = 5
@@ -131,6 +102,23 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    func showOrHideRetweet() {
+        if let retweetUser = retweeter {
+            if let retweeterName = retweetUser.name {
+                retweeterLabel.text = "\(retweeterName) Retweeted"
+            } else {
+                retweeterLabel.text = "Somebody Retweeted" // shouldn't happen
+            }
+            retweetView.isHidden = false
+            retweetTopConstraint.isActive = true
+            retweeterDisplayConstraint.isActive = true
+        } else {
+            retweetView.isHidden = true
+            retweetTopConstraint.isActive = false
+            retweeterDisplayConstraint.isActive = false
+        }
+    }
+    
     func updateStats() {
         let statsString = "\(tweet.retweetCount) Retweets  \(tweet.favoritesCount) Likes"
         statsLabel.text = statsString
@@ -146,11 +134,9 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    // MARK: - Buttons
     @IBAction func onReplyButton(_ sender: Any) {
-        guard let origUser = tweet.user else {
-            print("nil user")
-            return
-        }
+        guard let origUser = tweet.user else { return }
         var username = "\(origUser.screenname) "
         if let rtUser = retweeter {
             username.append("\(rtUser.screenname) ")
@@ -177,7 +163,6 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             return
         }
         let rtState = tweet.retweeted
-        print(rtState)
         let rtCount = tweet.retweetCount
         if rtState {
             TwitterClient.sharedInstance.retweet(retweetMe: false, id: tweetID, success: { (newTweet: Tweet) -> Void in
@@ -204,7 +189,6 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             return
         }
         let faveState = tweet.favorited
-        print(faveState)
         let faveCount = tweet.favoritesCount
         if faveState {
             TwitterClient.sharedInstance.fave(faveMe: false, id: tweetID, success: { (newTweet: Tweet) -> Void in
@@ -225,6 +209,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    // MARK: - Composing a reply
     func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             var contentInset: UIEdgeInsets = self.scrollframeView.contentInset
@@ -246,6 +231,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    // Show countdown from 140 characters
     func textViewDidChange(_ textView: UITextView) {
         let length = composeTextView.text.count
         let charsLeft = 140 - length
@@ -266,15 +252,5 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         delegate?.tweetViewController?(tweetViewController: self, replyto: tweet.id!, tweeted: tweetText)
         
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

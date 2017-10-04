@@ -16,6 +16,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     var loginSuccess: (() -> ())?
     var loginFailure: ((Error) -> ())?
     
+    // MARK: - Login/logout
     func login(success: @escaping () -> (), failure: @escaping (Error) -> ()) {
         loginSuccess = success
         loginFailure = failure
@@ -71,6 +72,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    // MARK: - Timeline Tasks
     func homeTimeline(success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
         let params: [String: AnyObject] = ["count": 20 as AnyObject]
         get("1.1/statuses/home_timeline.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
@@ -107,6 +109,7 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    // MARK: - Tweet interactions
     func tweet(text: String, replyToID: Int64? = nil, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
         var params: [String: AnyObject] = [:]
         if replyToID != nil {

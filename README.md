@@ -2,7 +2,8 @@
 
 A simpler Twitter client for iOS
 
-Time spent: 33 hours spent in total
+Time spent: 33 hours spent week 1
+Time spent: 2 hours spent week 2
 
 ## User Stories
 
@@ -14,6 +15,10 @@ The following **required** functionality is completed:
 - [x] User can pull to refresh
 - [x] User can compose a new tweet by tapping on a compose button.
 - [x] User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
+- [ ] Hamburger menu reveals by dragging anywhere on the screen.
+- [ ] Hamburger reveals links to several timelines
+- [ ] Profile page with header view, user stats, and user's tweets
+- [ ] Tap on any profile pic in the home timeline to go to that user's profile page
 
 The following **optional** features are implemented:
 
@@ -23,6 +28,7 @@ The following **optional** features are implemented:
 - [x] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count.
 - [x] Replies should be prefixed with the username and the reply_id should be set when posting the tweet.
 - [x] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
+- [ ] Allow user to switch between accounts
 
 The following **additional** features are implemented:
 - [x] Timestamps are displayed with relative date formatting
