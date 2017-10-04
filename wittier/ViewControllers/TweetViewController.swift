@@ -180,7 +180,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         print(rtState)
         let rtCount = tweet.retweetCount
         if rtState {
-            TwitterClient.sharedInstance.unretweet(id: tweetID, success: { (newTweet: Tweet) -> Void in
+            TwitterClient.sharedInstance.retweet(retweetMe: false, id: tweetID, success: { (newTweet: Tweet) -> Void in
                 self.tweet.retweeted = !rtState
                 self.tweet.retweetCount = rtCount - 1
                 self.updateStats()
@@ -188,7 +188,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
                 print("\(error.localizedDescription)")
             })
         } else {
-            TwitterClient.sharedInstance.retweet(id: tweetID, success: { (newTweet: Tweet) -> Void in
+            TwitterClient.sharedInstance.retweet(retweetMe: true, id: tweetID, success: { (newTweet: Tweet) -> Void in
                 self.tweet.retweeted = !rtState
                 self.tweet.retweetCount = rtCount + 1
                 self.updateStats()
@@ -207,7 +207,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         print(faveState)
         let faveCount = tweet.favoritesCount
         if faveState {
-            TwitterClient.sharedInstance.unfave(id: tweetID, success: { (newTweet: Tweet) -> Void in
+            TwitterClient.sharedInstance.fave(faveMe: false, id: tweetID, success: { (newTweet: Tweet) -> Void in
                 self.tweet.favorited = !faveState
                 self.tweet.favoritesCount = faveCount - 1
                 self.updateStats()
@@ -215,7 +215,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
                 print("\(error.localizedDescription)")
             })
         } else {
-            TwitterClient.sharedInstance.fave(id: tweetID, success: { (newTweet: Tweet) -> Void in
+            TwitterClient.sharedInstance.fave(faveMe: true, id: tweetID, success: { (newTweet: Tweet) -> Void in
                 self.tweet.favorited = !faveState
                 self.tweet.favoritesCount = faveCount + 1
                 self.updateStats()

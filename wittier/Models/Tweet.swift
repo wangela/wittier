@@ -93,7 +93,6 @@ class Tweet: NSObject {
     var timestamp: String?
     var retweetedStatus: Tweet?
     var entities: Entities?
-    var prettyText: NSAttributedString?
     
     init(dictionary: NSDictionary) {
         super.init()
@@ -126,11 +125,10 @@ class Tweet: NSObject {
             print("entities found")
             let entitiesDictionary = entitiesDict as! [String: Any]
             entities = Entities(dictionary: entitiesDictionary)
-            getFormattedText(text: text!, myEntities: entities!)
         }
     }
     
-    func getFormattedText(text: String, myEntities: Entities) {
+    func getFormattedText(text: String, myEntities: Entities) -> NSAttributedString {
         var attrString: NSAttributedString = NSAttributedString.init()
         if let hashtags = myEntities.hashtags {
             print(hashtags)
@@ -151,7 +149,7 @@ class Tweet: NSObject {
                 print("changing links text \(link.displayURL)")
             }
         }
-        prettyText = attrString
+       return attrString
     }
     
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet] {

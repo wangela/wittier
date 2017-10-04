@@ -201,7 +201,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     internal func tweetViewController(tweetViewController: TweetViewController, replyto id: Int64, tweeted string: String) {
-        TwitterClient.sharedInstance.reply(text: string, id: id, success: { (postedTweet: Tweet) -> Void in
+        TwitterClient.sharedInstance.tweet(text: string, replyToID: id, success: { (postedTweet: Tweet) -> Void in
             _ = self.navigationController?.popViewController(animated: true)
             self.refreshControlAction(self.refreshControl)
         }, failure: { (error: Error) -> Void in
