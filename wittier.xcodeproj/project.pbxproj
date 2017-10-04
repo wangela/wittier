@@ -11,7 +11,6 @@
 		7714CCF51F7CE7A700993431 /* ComposeAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7714CCF41F7CE7A700993431 /* ComposeAccessoryView.swift */; };
 		7714CCF71F7CEA9D00993431 /* ComposeToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7714CCF61F7CEA9D00993431 /* ComposeToolbar.swift */; };
 		7741622F1F7A242A005DA649 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7741622E1F7A242A005DA649 /* AppDelegate.swift */; };
-		774162341F7A242A005DA649 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 774162321F7A242A005DA649 /* Main.storyboard */; };
 		774162361F7A242A005DA649 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 774162351F7A242A005DA649 /* Assets.xcassets */; };
 		774162391F7A242A005DA649 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 774162371F7A242A005DA649 /* LaunchScreen.storyboard */; };
 		774848FC1F7B76A900D349DC /* TweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774848FB1F7B76A900D349DC /* TweetViewController.swift */; };
@@ -23,6 +22,10 @@
 		775C61E41F7B02EA00679D56 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775C61E31F7B02EA00679D56 /* User.swift */; };
 		775D1F281F80DB100038ACF4 /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775D1F271F80DB100038ACF4 /* InfiniteScrollActivityView.swift */; };
 		77A2D8A01F7B285E009EB2DF /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A2D89F1F7B285E009EB2DF /* TweetCell.swift */; };
+		77E472FE1F84A33600FFEC03 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E472FD1F84A33600FFEC03 /* MenuViewController.swift */; };
+		77E473001F84AB4200FFEC03 /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E472FF1F84AB4200FFEC03 /* HamburgerViewController.swift */; };
+		77E473021F84AFDC00FFEC03 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E473011F84AFDC00FFEC03 /* MenuCell.swift */; };
+		77E473051F84B99600FFEC03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77E473031F84B91800FFEC03 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +34,6 @@
 		7714CCF61F7CEA9D00993431 /* ComposeToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeToolbar.swift; sourceTree = "<group>"; };
 		7741622B1F7A242A005DA649 /* wittier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wittier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7741622E1F7A242A005DA649 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		774162331F7A242A005DA649 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		774162351F7A242A005DA649 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		774162381F7A242A005DA649 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7741623A1F7A242A005DA649 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -44,6 +46,10 @@
 		775C61E31F7B02EA00679D56 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		775D1F271F80DB100038ACF4 /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
 		77A2D89F1F7B285E009EB2DF /* TweetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
+		77E472FD1F84A33600FFEC03 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		77E472FF1F84AB4200FFEC03 /* HamburgerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
+		77E473011F84AFDC00FFEC03 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		77E473041F84B91800FFEC03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7A6C4867E49A2236E7EA10BE /* Pods-wittier.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wittier.release.xcconfig"; path = "Pods/Target Support Files/Pods-wittier/Pods-wittier.release.xcconfig"; sourceTree = "<group>"; };
 		AE3E3F4D43A332218306ACF0 /* Pods-wittier.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wittier.debug.xcconfig"; path = "Pods/Target Support Files/Pods-wittier/Pods-wittier.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,8 +110,8 @@
 				775C61E21F7B02C700679D56 /* Views */,
 				775C61E01F7B029000679D56 /* Models */,
 				7741622E1F7A242A005DA649 /* AppDelegate.swift */,
-				774162321F7A242A005DA649 /* Main.storyboard */,
 				774162351F7A242A005DA649 /* Assets.xcassets */,
+				77E473031F84B91800FFEC03 /* Main.storyboard */,
 				774162371F7A242A005DA649 /* LaunchScreen.storyboard */,
 				7741623A1F7A242A005DA649 /* Info.plist */,
 			);
@@ -136,6 +142,7 @@
 				7714CCF41F7CE7A700993431 /* ComposeAccessoryView.swift */,
 				7714CCF61F7CEA9D00993431 /* ComposeToolbar.swift */,
 				775D1F271F80DB100038ACF4 /* InfiniteScrollActivityView.swift */,
+				77E473011F84AFDC00FFEC03 /* MenuCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -147,6 +154,8 @@
 				774B77AD1F7B0DDE001314BD /* TimelineViewController.swift */,
 				774848FB1F7B76A900D349DC /* TweetViewController.swift */,
 				774848FD1F7B76BB00D349DC /* ComposeViewController.swift */,
+				77E472FD1F84A33600FFEC03 /* MenuViewController.swift */,
+				77E472FF1F84AB4200FFEC03 /* HamburgerViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -222,9 +231,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77E473051F84B99600FFEC03 /* Main.storyboard in Resources */,
 				774162391F7A242A005DA649 /* LaunchScreen.storyboard in Resources */,
 				774162361F7A242A005DA649 /* Assets.xcassets in Resources */,
-				774162341F7A242A005DA649 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,9 +308,12 @@
 				77A2D8A01F7B285E009EB2DF /* TweetCell.swift in Sources */,
 				7741622F1F7A242A005DA649 /* AppDelegate.swift in Sources */,
 				7714CCF71F7CEA9D00993431 /* ComposeToolbar.swift in Sources */,
+				77E473001F84AB4200FFEC03 /* HamburgerViewController.swift in Sources */,
 				775C61E41F7B02EA00679D56 /* User.swift in Sources */,
+				77E472FE1F84A33600FFEC03 /* MenuViewController.swift in Sources */,
 				774848FC1F7B76A900D349DC /* TweetViewController.swift in Sources */,
 				774B77AC1F7B06CC001314BD /* Tweet.swift in Sources */,
+				77E473021F84AFDC00FFEC03 /* MenuCell.swift in Sources */,
 				774B77B41F7B11AB001314BD /* TwitterClient.swift in Sources */,
 				7714CCF51F7CE7A700993431 /* ComposeAccessoryView.swift in Sources */,
 				774B77AE1F7B0DDE001314BD /* TimelineViewController.swift in Sources */,
@@ -311,20 +323,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		774162321F7A242A005DA649 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				774162331F7A242A005DA649 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		774162371F7A242A005DA649 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				774162381F7A242A005DA649 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		77E473031F84B91800FFEC03 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				77E473041F84B91800FFEC03 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

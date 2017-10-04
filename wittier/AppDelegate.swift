@@ -15,18 +15,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         
+        // If user is logged in, go straight to home timeline with hamburger menu behind
         if User.currentUser != nil {
-            print("There is a current user")
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
+            let storyboard2 = UIStoryboard(name: "Main", bundle: nil)
+            let menuViewController = storyboard2.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+
+            let hamburgerViewController = storyboard2.instantiateViewController(withIdentifier: "HamburgerViewController") as! HamburgerViewController
             
-            window?.rootViewController = vc
+            menuViewController.hamburgerViewController = hamburgerViewController
+            hamburgerViewController.menuViewController = menuViewController
+            
+            window?.rootViewController = hamburgerViewController
+
         } else {
             print("There is no current user")
         }
         
+        // Return to login screen upon logout
         NotificationCenter.default.addObserver(forName: User.userDidLogoutNotification, object: nil, queue: OperationQueue.main, using: { (Notification) -> Void in
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateInitialViewController()
