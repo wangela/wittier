@@ -9,7 +9,7 @@
 import UIKit
 
 @objc protocol TweetViewControllerDelegate {
-    @objc optional func tweetViewController(tweetViewController: TweetViewController, replyto id: Int64, tweeted string: String)
+    @objc optional func tweetViewController(tweetViewController: TweetViewController, replyToID: Int64, tweeted string: String)
 }
 
 class TweetViewController: UIViewController, UITextViewDelegate {
@@ -148,7 +148,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         composeTextView.text = "\(username)"
         let length = username.count
         DispatchQueue.main.async {
-            self.composeTextView.selectedRange = NSMakeRange(length, length)
+            self.composeTextView.selectedRange = NSRange(location: length, length: 0)
         }
         replytweetView.isHidden = false
         NSLayoutConstraint.activate([counterTopContstraint, composeCounterConstraint, bottomComposeConstraint])
@@ -249,7 +249,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             return
         }
         
-        delegate?.tweetViewController?(tweetViewController: self, replyto: tweet.id!, tweeted: tweetText)
+        delegate?.tweetViewController?(tweetViewController: self, replyToID: tweet.id!, tweeted: tweetText)
         
     }
 

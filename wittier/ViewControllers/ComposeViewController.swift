@@ -48,7 +48,7 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
             composeTextView.text = "Write here"
             composeTextView.textColor = UIColor.lightGray
             DispatchQueue.main.async {
-                self.composeTextView.selectedRange = NSMakeRange(0, 0)
+                self.composeTextView.selectedRange = NSRange(location: 0, length: 0)
             }
         }
 

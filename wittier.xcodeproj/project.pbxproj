@@ -26,6 +26,8 @@
 		77E473001F84AB4200FFEC03 /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E472FF1F84AB4200FFEC03 /* HamburgerViewController.swift */; };
 		77E473021F84AFDC00FFEC03 /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E473011F84AFDC00FFEC03 /* MenuCell.swift */; };
 		77E473051F84B99600FFEC03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77E473031F84B91800FFEC03 /* Main.storyboard */; };
+		77EEEFCF1F86DD4B00E23BB2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EEEFCE1F86DD4B00E23BB2 /* ProfileViewController.swift */; };
+		77EEEFD11F86F17300E23BB2 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EEEFD01F86F17300E23BB2 /* ProfileCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,8 @@
 		77E472FF1F84AB4200FFEC03 /* HamburgerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
 		77E473011F84AFDC00FFEC03 /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		77E473041F84B91800FFEC03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		77EEEFCE1F86DD4B00E23BB2 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		77EEEFD01F86F17300E23BB2 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		7A6C4867E49A2236E7EA10BE /* Pods-wittier.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wittier.release.xcconfig"; path = "Pods/Target Support Files/Pods-wittier/Pods-wittier.release.xcconfig"; sourceTree = "<group>"; };
 		AE3E3F4D43A332218306ACF0 /* Pods-wittier.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wittier.debug.xcconfig"; path = "Pods/Target Support Files/Pods-wittier/Pods-wittier.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				77A2D89F1F7B285E009EB2DF /* TweetCell.swift */,
+				77EEEFD01F86F17300E23BB2 /* ProfileCell.swift */,
 				7714CCF41F7CE7A700993431 /* ComposeAccessoryView.swift */,
 				7714CCF61F7CEA9D00993431 /* ComposeToolbar.swift */,
 				775D1F271F80DB100038ACF4 /* InfiniteScrollActivityView.swift */,
@@ -152,6 +157,7 @@
 			children = (
 				774B77A91F7B0508001314BD /* LoginViewController.swift */,
 				774B77AD1F7B0DDE001314BD /* TimelineViewController.swift */,
+				77EEEFCE1F86DD4B00E23BB2 /* ProfileViewController.swift */,
 				774848FB1F7B76A900D349DC /* TweetViewController.swift */,
 				774848FD1F7B76BB00D349DC /* ComposeViewController.swift */,
 				77E472FD1F84A33600FFEC03 /* MenuViewController.swift */,
@@ -302,12 +308,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77EEEFD11F86F17300E23BB2 /* ProfileCell.swift in Sources */,
 				775D1F281F80DB100038ACF4 /* InfiniteScrollActivityView.swift in Sources */,
 				774848FE1F7B76BB00D349DC /* ComposeViewController.swift in Sources */,
 				774B77AA1F7B0508001314BD /* LoginViewController.swift in Sources */,
 				77A2D8A01F7B285E009EB2DF /* TweetCell.swift in Sources */,
 				7741622F1F7A242A005DA649 /* AppDelegate.swift in Sources */,
 				7714CCF71F7CEA9D00993431 /* ComposeToolbar.swift in Sources */,
+				77EEEFCF1F86DD4B00E23BB2 /* ProfileViewController.swift in Sources */,
 				77E473001F84AB4200FFEC03 /* HamburgerViewController.swift in Sources */,
 				775C61E41F7B02EA00679D56 /* User.swift in Sources */,
 				77E472FE1F84A33600FFEC03 /* MenuViewController.swift in Sources */,
