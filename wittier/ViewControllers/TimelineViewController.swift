@@ -12,9 +12,10 @@ import MBProgressHUD
 class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     @IBOutlet weak var tweetsTableView: UITableView!
     
+    var username: String = "admin"
     var tweets: [Tweet]!
-    var max_id: Int64 = 0
-    var since_id: Int64 = 0
+    var maxID: Int64 = 0
+    var sinceID: Int64 = 0
     
     let refreshControl = UIRefreshControl()
     var isMoreDataLoading = false
@@ -44,12 +45,12 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         tweetsTableView.insertSubview(refreshControl, at: 0)
         
-        TwitterClient.sharedInstance.homeTimeline(success: { (tweets: [Tweet]) -> () in
+        TwitterClient.sharedInstance.homeTimeline(task: .initial, success: { (tweets: [Tweet]) -> () in
             self.tweets = tweets
             let lastID: Int64 = self.tweets[self.tweets.endIndex - 1].id!
-            self.max_id = lastID - 1
+            self.maxID = lastID - 1
             let firstID: Int64 = self.tweets[0].id!
-            self.since_id = firstID
+            self.sinceID = firstID
             self.tweetsTableView.reloadData()
             self.tweetsTableView.isHidden = false
             MBProgressHUD.hide(for: self.view, animated: true)
@@ -120,10 +121,10 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
     }
         
     func loadMoreTweets() {
-        TwitterClient.sharedInstance.infiniteTimeline(max_id: max_id, success: { (tweets: [Tweet]) -> () in
+        TwitterClient.sharedInstance.homeTimeline(task: .infinite, maxID: maxID, success:{ (tweets: [Tweet]) -> () in
             self.tweets.append(contentsOf: tweets)
             let lastID: Int64 = self.tweets[self.tweets.endIndex - 1].id!
-            self.max_id = lastID - 1
+            self.maxID = lastID - 1
             self.isMoreDataLoading = false
             // Stop the loading indicator
             self.loadingMoreView!.stopAnimating()
@@ -135,10 +136,10 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
             
     
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
-        TwitterClient.sharedInstance.refreshTimeline(since_id: since_id, success: { (tweets: [Tweet]) -> () in
+        TwitterClient.sharedInstance.homeTimeline(task: .refresh, sinceID: sinceID, success: { (tweets: [Tweet]) -> () in
             self.tweets.insert(contentsOf: tweets, at: 0)
             let firstID: Int64 = self.tweets[0].id!
-            self.since_id = firstID
+            self.sinceID = firstID
             self.tweetsTableView.reloadData()
             refreshControl.endRefreshing()
         }, failure: {(error: Error) -> () in
@@ -194,6 +195,7 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
+    // MARK: - Delegate functions
     internal func tweetViewController(tweetViewController: TweetViewController, replyto id: Int64, tweeted string: String) {
         TwitterClient.sharedInstance.tweet(text: string, replyToID: id, success: { (postedTweet: Tweet) -> Void in
             _ = self.navigationController?.popViewController(animated: true)
