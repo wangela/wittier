@@ -10,6 +10,12 @@ import UIKit
 import AFNetworking
 import BDBOAuth1Manager
 
+enum timelineType {
+    case home
+    case profile
+    case mentions
+}
+
 enum timelineTask {
     case initial
     case refresh
@@ -79,8 +85,18 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     // MARK: - Timelines: Home, User, Mentions
-    func homeTimeline(task: timelineTask, maxID: Int64? = nil, sinceID: Int64? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+    func getTimeline(type: timelineType, task: timelineTask, maxID: Int64? = nil, sinceID: Int64? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
         var params: [String: AnyObject] = ["count": 5 as AnyObject]
+        var apiString = ""
+        switch type {
+        case .home:
+            apiString = "1.1/statuses/home_timeline.json"
+        case .profile:
+            apiString = "1.1/statuses/user_timeline.json"
+        case .mentions:
+            apiString = "1.1/statuses/mentions_timeline.json"
+        }
+        
         switch task {
         case .refresh:
             params["since_id"] = sinceID as AnyObject
@@ -91,54 +107,11 @@ class TwitterClient: BDBOAuth1SessionManager {
         default:
             break
         }
-        get("1.1/statuses/home_timeline.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
+        
+        get(apiString, parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
             let dictionaries = response as! [NSDictionary]
             let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
 
-            success(tweets)
-        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
-            failure(error)
-        })
-    }
-    
-    func userTimeline(screenname: String, task: timelineTask, maxID: Int64? = nil, sinceID: Int64? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
-        var params: [String: AnyObject] = ["screen_name": screenname as AnyObject, "count": 5 as AnyObject]
-        switch task {
-        case .refresh:
-            params["since_id"] = sinceID as AnyObject
-        case .infinite:
-            params["max_id"] = maxID as AnyObject
-        case .initial:
-            fallthrough
-        default:
-            break
-        }
-        get("1.1/statuses/user_timeline.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
-            let dictionaries = response as! [NSDictionary]
-            let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
-            
-            success(tweets)
-        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
-            failure(error)
-        })
-    }
-    
-    func mentionsTimeline(task: timelineTask, maxID: Int64? = nil, sinceID: Int64? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
-        var params: [String: AnyObject] = ["count": 5 as AnyObject]
-        switch task {
-        case .refresh:
-            params["since_id"] = sinceID as AnyObject
-        case .infinite:
-            params["max_id"] = maxID as AnyObject
-        case .initial:
-            fallthrough
-        default:
-            break
-        }
-        get("1.1/statuses/mentions_timeline.json", parameters: params, progress: nil, success: { (task: URLSessionDataTask, response: Any?) -> Void in
-            let dictionaries = response as! [NSDictionary]
-            let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
-            
             success(tweets)
         }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
             failure(error)

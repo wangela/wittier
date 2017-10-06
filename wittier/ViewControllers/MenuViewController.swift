@@ -21,14 +21,20 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         menuTableView.dataSource = self
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let composeNavigationController = storyboard.instantiateViewController(withIdentifier: "ComposeNavigationController")
         let homeNavigationController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
-        let profileNavigationController = storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController")
-        //let mentionsNavigationController = storyboard.instantiateViewController(withIdentifier: "MentionsNavigationController")
+        let profileNavigationController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
+        let mentionsNavigationController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
+        
+        let homeVC = homeNavigationController.childViewControllers[0] as! TimelineViewController
+        let profileVC = profileNavigationController.childViewControllers[0] as! TimelineViewController
+        let mentionsVC = mentionsNavigationController.childViewControllers[0] as! TimelineViewController
+        homeVC.timelineType = .home
+        profileVC.timelineType = .profile
+        mentionsVC.timelineType = .mentions
         
         viewControllers.append(homeNavigationController)
         viewControllers.append(profileNavigationController)
-        //viewControllers.append(mentionsNavigationController)
+        viewControllers.append(mentionsNavigationController)
         
         hamburgerViewController.contentViewController = homeNavigationController
 
@@ -56,7 +62,6 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.deselectRow(at: indexPath, animated: true)
         hamburgerViewController.contentViewController = viewControllers[indexPath.row]
     }
-    
 
     /*
     // MARK: - Navigation

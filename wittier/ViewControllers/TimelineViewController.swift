@@ -14,7 +14,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     
     @IBOutlet weak var tweetsTableView: UITableView!
     
-    // var username: String
+    var timelineType: timelineType
     var tweets: [Tweet]!
     var maxID: Int64 = 0
     var sinceID: Int64 = 0
@@ -26,6 +26,11 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if timelineType == .profile {
+            fillProfileHeader()
+        }
+        
+        // set up tweetsTableView
         tweetsTableView.isHidden = true
         MBProgressHUD.showAdded(to: self.view, animated: true)
         
@@ -47,21 +52,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         tweetsTableView.insertSubview(refreshControl, at: 0)
         
-        TwitterClient.sharedInstance.homeTimeline(task: .initial, success: { (tweets: [Tweet]) -> () in
-            self.tweets = tweets
-            let lastID: Int64 = self.tweets[self.tweets.endIndex - 1].id!
-            self.maxID = lastID - 1
-            let firstID: Int64 = self.tweets[0].id!
-            self.sinceID = firstID
-            self.tweetsTableView.reloadData()
-            self.tweetsTableView.isHidden = false
-            MBProgressHUD.hide(for: self.view, animated: true)
-        }, failure: {(error: Error) -> () in
-            print(error.localizedDescription)
-            // Hide HUD once the network request comes back
-            MBProgressHUD.hide(for: self.view, animated: true)
-        })
-        
+        fetchTweets(fetchTask: .initial)
     }
 
     override func didReceiveMemoryWarning() {
@@ -69,6 +60,29 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Profile Header Setup
+    func fillProfileHeader() {
+        if let user = User.currentUser {
+            getProfileImages(user: user)
+            getProfileLabels(user: user)
+        }
+
+    }
+    
+    func getProfileImages(user: User) {
+        
+    }
+    
+    func getProfileLabels(user: User) {
+        nameLabel.text = user.name
+        screennameLabel.text = user.screenname
+        descriptionLabel.text = user.tagline
+        locationLabel.text = user.location
+        followerCountLabel.text = user.followerCount
+        followingCountLabel.text = user.followingCount
+    }
+    
+    // MARK: - TableView setup
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let tweetsArray = tweets {
             return tweetsArray.count
@@ -118,38 +132,58 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
                 loadingMoreView?.frame = frame
                 loadingMoreView!.startAnimating()
                 
-                loadMoreTweets()
+                fetchTweets(fetchTask: .infinite)
                 
             }
         }
     }
-        
-    func loadMoreTweets() {
-        TwitterClient.sharedInstance.homeTimeline(task: .infinite, maxID: maxID, success:{ (tweets: [Tweet]) -> () in
-            self.tweets.append(contentsOf: tweets)
+    
+    // MARK: - Tweets Fetching
+    func fetchTweets(fetchTask: timelineTask) {
+        var max: Int64 = 0
+        var since: Int64 = 0
+        switch task {
+        case .initial:
+            break
+        case .infinite:
+            max = maxID
+        case .refresh:
+            since = sinceID
+        }
+        TwitterClient.sharedInstance.getTimeline(type: timelineType, task: fetchTask, maxID: max, sinceID: since, success: { (tweets: [Tweet]) -> () in
+            switch task {
+            case .initial:
+                self.tweets = tweets
+            case .infinite:
+                self.tweets.append(contentsOf: tweets)
+                self.isMoreDataLoading = false
+                // Stop the loading indicator
+                self.loadingMoreView!.stopAnimating()
+            case .refresh:
+                self.tweets.insert(contentsOf: tweets, at: 0)
+                self.refreshControl.endRefreshing()
+            }
+
             let lastID: Int64 = self.tweets[self.tweets.endIndex - 1].id!
             self.maxID = lastID - 1
-            self.isMoreDataLoading = false
-            // Stop the loading indicator
-            self.loadingMoreView!.stopAnimating()
-            self.tweetsTableView.reloadData()
-        }, failure: {(error: Error) -> () in
-            print(error.localizedDescription)
-        })
-    }
-            
-    
-    func refreshControlAction(_ refreshControl: UIRefreshControl) {
-        TwitterClient.sharedInstance.homeTimeline(task: .refresh, sinceID: sinceID, success: {
-            (tweets: [Tweet]) -> () in
-            self.tweets.insert(contentsOf: tweets, at: 0)
             let firstID: Int64 = self.tweets[0].id!
             self.sinceID = firstID
             self.tweetsTableView.reloadData()
-            refreshControl.endRefreshing()
+            
+            if fetchTask = .initial {
+                self.tweetsTableView.isHidden = false
+                MBProgressHUD.hide(for: self.view, animated: true)
+            }
         }, failure: {(error: Error) -> () in
             print(error.localizedDescription)
+            // Hide HUD once the network request comes back
+            MBProgressHUD.hide(for: self.view, animated: true)
         })
+        
+    }
+    
+    func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        fetchTweets(fetchTask: .refresh )
     }
     
     @IBAction func onTopButton(_ sender: Any) {
