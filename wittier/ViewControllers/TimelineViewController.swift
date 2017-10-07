@@ -14,7 +14,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     
     @IBOutlet weak var tweetsTableView: UITableView!
     
-    var timelineType: timelineType
+    var timelineType: timelineType = .home
     var tweets: [Tweet]!
     var maxID: Int64 = 0
     var sinceID: Int64 = 0
@@ -25,10 +25,6 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if timelineType == .profile {
-            fillProfileHeader()
-        }
         
         // set up tweetsTableView
         tweetsTableView.isHidden = true
@@ -60,59 +56,61 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - Profile Header Setup
-    func fillProfileHeader() {
-        if let user = User.currentUser {
-            getProfileImages(user: user)
-            getProfileLabels(user: user)
-        }
-
-    }
-    
-    func getProfileImages(user: User) {
-        
-    }
-    
-    func getProfileLabels(user: User) {
-        nameLabel.text = user.name
-        screennameLabel.text = user.screenname
-        descriptionLabel.text = user.tagline
-        locationLabel.text = user.location
-        followerCountLabel.text = user.followerCount
-        followingCountLabel.text = user.followingCount
-    }
-    
     // MARK: - TableView setup
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if timelineType == .profile {
+            return 2
+        } else {
+            return 1
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let tweetsArray = tweets {
-            return tweetsArray.count
-        } else { return 0 }
+        if tableView.numberOfSections == 2 && section == 0 {
+            return 1
+        } else {
+            if let tweetsArray = tweets {
+                return tweetsArray.count
+            } else { return 0 }
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tweetsTableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
-        cell.delegate = self
-        var cellTweet: Tweet
-        
-        guard let tweetsArray = tweets else {
-            print("problem unwrapping tweets")
-            return cell
-        }
-
-        let returnedTweet = tweetsArray[indexPath.row]
-        if let originalTweet = returnedTweet.retweetedStatus {
-            guard let retweeter = returnedTweet.user else {
+        if tableView.numberOfSections == 2 && indexPath.section == 0 {
+            let cell = ProfileCell()
+            guard let user = User.currentUser else {
+                print("problem loading current user")
                 return cell
             }
-            cell.retweeter = retweeter
-            cellTweet = originalTweet
+            
+            cell.user = user
+            
+            return cell
         } else {
-            cell.retweeter = nil
-            cellTweet = returnedTweet
+            let cell = tweetsTableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
+            cell.delegate = self
+            var cellTweet: Tweet
+            
+            guard let tweetsArray = tweets else {
+                print("problem unwrapping tweets")
+                return cell
+            }
+            
+            let returnedTweet = tweetsArray[indexPath.row]
+            if let originalTweet = returnedTweet.retweetedStatus {
+                guard let retweeter = returnedTweet.user else {
+                    return cell
+                }
+                cell.retweeter = retweeter
+                cellTweet = originalTweet
+            } else {
+                cell.retweeter = nil
+                cellTweet = returnedTweet
+            }
+            cell.tweet = cellTweet
+            
+            return cell
         }
-        cell.tweet = cellTweet
-        
-        return cell
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -142,7 +140,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     func fetchTweets(fetchTask: timelineTask) {
         var max: Int64 = 0
         var since: Int64 = 0
-        switch task {
+        switch fetchTask {
         case .initial:
             break
         case .infinite:
@@ -151,7 +149,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
             since = sinceID
         }
         TwitterClient.sharedInstance.getTimeline(type: timelineType, task: fetchTask, maxID: max, sinceID: since, success: { (tweets: [Tweet]) -> () in
-            switch task {
+            switch fetchTask {
             case .initial:
                 self.tweets = tweets
             case .infinite:
@@ -170,7 +168,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
             self.sinceID = firstID
             self.tweetsTableView.reloadData()
             
-            if fetchTask = .initial {
+            if fetchTask == .initial {
                 self.tweetsTableView.isHidden = false
                 MBProgressHUD.hide(for: self.view, animated: true)
             }

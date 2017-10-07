@@ -13,6 +13,7 @@ class User: NSObject {
     var name: String?
     var screenname: String = "@"
     var profileURL: URL?
+    var profileBackgroundURL: URL?
     var tagline: String?
     var userDictionary: NSDictionary
     var location: String?
@@ -35,6 +36,12 @@ class User: NSObject {
             return
         }
         profileURL = URL(string: profileURLString)
+        
+        guard let profileBackgroundURLString = dictionary["profile_banenr_url"] as? String else {
+            print("error unwrapping profile url string")
+            return
+        }
+        profileBackgroundURL = URL(string: profileBackgroundURLString)
         
         tagline = dictionary["description"] as? String
         location = dictionary["location"] as? String

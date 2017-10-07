@@ -18,10 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // If user is logged in, go straight to home timeline with hamburger menu behind
         if User.currentUser != nil {
-            let storyboard2 = UIStoryboard(name: "Main", bundle: nil)
-            let menuViewController = storyboard2.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let menuViewController = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
 
-            let hamburgerViewController = storyboard2.instantiateViewController(withIdentifier: "HamburgerViewController") as! HamburgerViewController
+            let hamburgerViewController = storyboard.instantiateViewController(withIdentifier: "HamburgerViewController") as! HamburgerViewController
             
             menuViewController.hamburgerViewController = hamburgerViewController
             hamburgerViewController.menuViewController = menuViewController

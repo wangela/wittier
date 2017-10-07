@@ -3,7 +3,7 @@
 A simpler Twitter client for iOS
 
 Time spent: 33 hours spent week 1
-Time spent: 5 hours spent week 2
+Time spent: 9 hours spent week 2
 
 ## User Stories
 
