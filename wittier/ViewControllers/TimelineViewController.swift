@@ -48,6 +48,25 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         tweetsTableView.insertSubview(refreshControl, at: 0)
         
+        // Show Profile information if profile
+        if timelineType == .profile {
+            let tweetsHeader = UITableViewHeaderFooterView()
+            let profileContent = ProfileHeaderContentView()
+            profileContent.user = User.currentUser
+            tweetsHeader.addSubview(profileContent)
+            
+            tweetsTableView.tableHeaderView = tweetsHeader
+            
+            tweetsHeader.centerXAnchor.constraint(equalTo: tweetsTableView.centerXAnchor).isActive = true
+            tweetsHeader.widthAnchor.constraint(equalTo: tweetsTableView.widthAnchor).isActive = true
+            tweetsHeader.topAnchor.constraint(equalTo: tweetsTableView.topAnchor).isActive = true
+            
+            tweetsTableView.tableHeaderView?.layoutIfNeeded()
+            tweetsTableView.tableHeaderView = tweetsTableView.tableHeaderView
+        } else {
+            tweetsTableView.tableHeaderView = nil
+        }
+        
         fetchTweets(fetchTask: .initial)
     }
 
@@ -57,60 +76,37 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     }
     
     // MARK: - TableView setup
-    func numberOfSections(in tableView: UITableView) -> Int {
-        if timelineType == .profile {
-            return 2
-        } else {
-            return 1
-        }
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView.numberOfSections == 2 && section == 0 {
-            return 1
-        } else {
-            if let tweetsArray = tweets {
-                return tweetsArray.count
-            } else { return 0 }
-        }
+        if let tweetsArray = tweets {
+            return tweetsArray.count
+        } else { return 0 }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView.numberOfSections == 2 && indexPath.section == 0 {
-            let cell = ProfileCell()
-            guard let user = User.currentUser else {
-                print("problem loading current user")
-                return cell
-            }
-            
-            cell.user = user
-            
-            return cell
-        } else {
-            let cell = tweetsTableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
-            cell.delegate = self
-            var cellTweet: Tweet
-            
-            guard let tweetsArray = tweets else {
-                print("problem unwrapping tweets")
-                return cell
-            }
-            
-            let returnedTweet = tweetsArray[indexPath.row]
-            if let originalTweet = returnedTweet.retweetedStatus {
-                guard let retweeter = returnedTweet.user else {
-                    return cell
-                }
-                cell.retweeter = retweeter
-                cellTweet = originalTweet
-            } else {
-                cell.retweeter = nil
-                cellTweet = returnedTweet
-            }
-            cell.tweet = cellTweet
-            
+        let cell = tweetsTableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
+        cell.delegate = self
+        var cellTweet: Tweet
+        
+        guard let tweetsArray = tweets else {
+            print("problem unwrapping tweets")
             return cell
         }
+        
+        let returnedTweet = tweetsArray[indexPath.row]
+        if let originalTweet = returnedTweet.retweetedStatus {
+            guard let retweeter = returnedTweet.user else {
+                return cell
+            }
+            cell.retweeter = retweeter
+            cellTweet = originalTweet
+        } else {
+            cell.retweeter = nil
+            cellTweet = returnedTweet
+        }
+        cell.tweet = cellTweet
+        
+        return cell
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -226,6 +222,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
             if cell.retweeter != nil {
                 destinationVC.retweeter = cell.retweeter
             }
+            destinationVC.replying = false
             destinationVC.delegate = self
         default:
             print("segue triggered with no identifier")
