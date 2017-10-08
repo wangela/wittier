@@ -20,7 +20,6 @@ class ProfileCell: UITableViewCell {
     
     var user: User! {
         didSet {
-            getProfileImages()
             getProfileLabels()
         }
     }
@@ -28,6 +27,7 @@ class ProfileCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        getProfileImages()
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width * 0.5
         profileImageView.clipsToBounds = true
     }
@@ -53,12 +53,17 @@ class ProfileCell: UITableViewCell {
     }
     
     func getProfileLabels() {
-        nameLabel.text = user.name
-        screennameLabel.text = user.screenname
-        descriptionLabel.text = user.tagline
-        locationLabel.text = user.location
-        followerCountLabel.text = user.followerCount
-        followingCountLabel.text = user.followingCount
+        guard let userr = user else {
+            print("nil user")
+            return
+        }
+        
+        nameLabel.text = userr.name
+        screennameLabel.text = userr.screenname
+        descriptionLabel.text = userr.tagline
+        locationLabel.text = userr.location
+        followerCountLabel.text = userr.followerCount
+        followingCountLabel.text = userr.followingCount
     }
 
 }
