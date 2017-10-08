@@ -31,6 +31,7 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let mentionsVC = mentionsNavigationController.childViewControllers[0] as! TimelineViewController
         homeVC.timelineType = .home
         profileVC.timelineType = .profile
+        profileVC.user = User.currentUser
         mentionsVC.timelineType = .mentions
         
         viewControllers.append(homeNavigationController)

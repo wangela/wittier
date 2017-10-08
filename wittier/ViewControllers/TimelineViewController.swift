@@ -13,11 +13,14 @@ class TimelineViewController: UIViewController, UITableViewDataSource, UITableVi
 ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     
     @IBOutlet weak var tweetsTableView: UITableView!
+    @IBOutlet weak var tweetsHeaderView: UIView!
+    @IBOutlet weak var profileContentView: ProfileHeaderContentView!
     
     var timelineType: timelineType = .home
     var tweets: [Tweet]!
     var maxID: Int64 = 0
     var sinceID: Int64 = 0
+    var user: User?
     
     let refreshControl = UIRefreshControl()
     var isMoreDataLoading = false
@@ -50,21 +53,18 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         
         // Show Profile information if profile
         if timelineType == .profile {
-            let tweetsHeader = UITableViewHeaderFooterView()
-            let profileContent = ProfileHeaderContentView()
-            profileContent.user = User.currentUser
-            tweetsHeader.addSubview(profileContent)
-            
-            tweetsTableView.tableHeaderView = tweetsHeader
-            
-            tweetsHeader.centerXAnchor.constraint(equalTo: tweetsTableView.centerXAnchor).isActive = true
-            tweetsHeader.widthAnchor.constraint(equalTo: tweetsTableView.widthAnchor).isActive = true
-            tweetsHeader.topAnchor.constraint(equalTo: tweetsTableView.topAnchor).isActive = true
-            
-            tweetsTableView.tableHeaderView?.layoutIfNeeded()
-            tweetsTableView.tableHeaderView = tweetsTableView.tableHeaderView
+            if let whichUser = user {
+                tweetsTableView.tableHeaderView = tweetsHeaderView
+                profileContentView.user = whichUser
+                profileContentView.awakeFromNib()
+                
+                tweetsTableView.layoutIfNeeded()
+                tweetsTableView.tableHeaderView = tweetsHeaderView
+                print("here is your header")
+            }
         } else {
             tweetsTableView.tableHeaderView = nil
+            print("no header")
         }
         
         fetchTweets(fetchTask: .initial)
@@ -129,6 +129,23 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
                 fetchTweets(fetchTask: .infinite)
                 
             }
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        guard let headerView = tweetsTableView.tableHeaderView else {
+            return
+        }
+        
+        let size = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        
+        if headerView.frame.size.height != size.height {
+            headerView.frame.size.height = size.height
+            
+            tweetsTableView.tableHeaderView = headerView
+            tweetsTableView.layoutIfNeeded()
         }
     }
     

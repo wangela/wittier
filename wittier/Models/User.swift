@@ -31,22 +31,36 @@ class User: NSObject {
         }
         screenname += sn
         
+        tagline = dictionary["description"] as? String
+        location = dictionary["location"] as? String
+        var numberFormatter: NumberFormatter {
+            let formattedNumber = NumberFormatter()
+            formattedNumber.numberStyle = .decimal
+            formattedNumber.maximumFractionDigits = 0
+            return formattedNumber
+        }
+        if let followerCountInt = dictionary["followers_count"] as? Int64 {
+            let followerCountNum = followerCountInt as NSNumber
+            followerCount = numberFormatter.string(from: followerCountNum)
+        }
+        if let followingCountInt = dictionary["friends_count"] as? Int64 {
+            let followingCountNum = followingCountInt as NSNumber
+            followingCount = numberFormatter.string(from: followingCountNum)
+        }
+        
         guard let profileURLString = dictionary["profile_image_url_https"] as? String else {
             print("error unwrapping profile url string")
             return
         }
         profileURL = URL(string: profileURLString)
         
-        guard let profileBackgroundURLString = dictionary["profile_banenr_url"] as? String else {
-            print("error unwrapping profile url string")
+        if let profileBackgroundURLString = dictionary["profile_banner_url"] as? String {
+            profileBackgroundURL = URL(string: profileBackgroundURLString)
+        } else {
+            print("no bg profile url string")
+            profileBackgroundURL = nil
             return
         }
-        profileBackgroundURL = URL(string: profileBackgroundURLString)
-        
-        tagline = dictionary["description"] as? String
-        location = dictionary["location"] as? String
-        followerCount = dictionary["followers_count"] as? String
-        followingCount = dictionary["friends_count"] as? String
         
     }
     

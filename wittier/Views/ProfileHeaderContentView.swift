@@ -18,26 +18,40 @@ class ProfileHeaderContentView: UIView {
     @IBOutlet weak var followingCountLabel: UILabel!
     @IBOutlet weak var followerCountLabel: UILabel!
 
-    var user: User! {
-        didSet {
-            getProfileLabels()
-        }
+    var user: User!
+    
+    convenience init() {
+        self.init(frame: CGRect.zero)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        getProfileImages()
-        profileImageView.layer.cornerRadius = profileImageView.frame.size.width * 0.5
-        profileImageView.clipsToBounds = true
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    required convenience init?(coder aDecoder: NSCoder) {
+        self.init(aDecoder)
         
-        getProfileImages()
-        profileImageView.layer.cornerRadius = profileImageView.frame.size.width * 0.5
-        profileImageView.clipsToBounds = true
+    }
+    
+    init?(_ coder: NSCoder? = nil) {
+        
+        if let coder = coder {
+            super.init(coder: coder)
+        }
+        else {
+            super.init(frame: CGRect.zero)
+        }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        if let user = user {
+            getProfileLabels()
+            getProfileImages()
+            profileImageView.layer.cornerRadius = profileImageView.frame.size.width * 0.5
+            profileImageView.clipsToBounds = true
+        }
     }
     
     func getProfileImages() {
@@ -56,7 +70,7 @@ class ProfileHeaderContentView: UIView {
     
     func getProfileLabels() {
         guard let userr = user else {
-            print("nil user")
+            print("nil user in profile header")
             return
         }
         

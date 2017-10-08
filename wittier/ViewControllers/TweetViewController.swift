@@ -92,8 +92,9 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         if replying {
             onReplyButton(replyButton)
         } else {
+            print("hiding reply")
             replytweetView.isHidden = true
-            NSLayoutConstraint.deactivate([counterTopContstraint, composeCounterConstraint, bottomComposeConstraint])
+            // NSLayoutConstraint.deactivate([counterTopContstraint, composeCounterConstraint, bottomComposeConstraint])
         }
     }
 
