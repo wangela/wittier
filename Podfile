@@ -8,6 +8,7 @@ target 'wittier' do
   # Pods for wittier
   pod 'AFNetworking'
   pod 'BDBOAuth1Manager'
-  pod "MBProgressHUD"
+  pod 'MBProgressHUD'
+  pod 'FLEX', '~> 2.0', :configurations => ['Debug']
 
 end

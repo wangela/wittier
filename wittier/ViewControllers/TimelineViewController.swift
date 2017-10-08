@@ -51,6 +51,8 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
         tweetsTableView.insertSubview(refreshControl, at: 0)
         
+        setNavigationTitle()
+        
         // Show Profile information if profile
         if timelineType == .profile {
             if let whichUser = user {
@@ -58,13 +60,17 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
                 profileContentView.user = whichUser
                 profileContentView.awakeFromNib()
                 
+                let size = profileContentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+                
+                if tweetsHeaderView.frame.size.height != size.height {
+                    tweetsHeaderView.frame.size.height = size.height
+                }
+                
                 tweetsTableView.layoutIfNeeded()
                 tweetsTableView.tableHeaderView = tweetsHeaderView
-                print("here is your header")
             }
         } else {
             tweetsTableView.tableHeaderView = nil
-            print("no header")
         }
         
         fetchTweets(fetchTask: .initial)
@@ -73,6 +79,21 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func setNavigationTitle() {
+        switch timelineType {
+        case .home:
+            navigationItem.title = "Home"
+        case .profile:
+            if let thisUser = user {
+                navigationItem.title = thisUser.name
+            } else {
+                navigationItem.title = "Profile"
+            }
+        case .mentions:
+            navigationItem.title = "Mentions"
+        }
     }
     
     // MARK: - TableView setup
@@ -129,23 +150,6 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
                 fetchTweets(fetchTask: .infinite)
                 
             }
-        }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        guard let headerView = tweetsTableView.tableHeaderView else {
-            return
-        }
-        
-        let size = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
-        
-        if headerView.frame.size.height != size.height {
-            headerView.frame.size.height = size.height
-            
-            tweetsTableView.tableHeaderView = headerView
-            tweetsTableView.layoutIfNeeded()
         }
     }
     
