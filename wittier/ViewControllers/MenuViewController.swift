@@ -53,8 +53,11 @@ class MenuViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = menuTableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath) as! MenuCell
-        
-        let titles = ["Home", "Profile", "Mentions"]
+        var screenname = "Profile"
+        if let me = User.currentUser {
+            screenname = me.screenname
+        }
+        let titles = ["Home", "\(screenname)", "Mentions"]
         cell.menuItemLabel.text = titles[indexPath.row]
         
         return cell

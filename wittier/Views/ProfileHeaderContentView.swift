@@ -22,27 +22,8 @@ class ProfileHeaderContentView: UIView {
     var user: User!
     
     // MARK: - Init
-    convenience init() {
-        self.init(frame: CGRect.zero)
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required convenience init?(coder aDecoder: NSCoder) {
-        self.init(aDecoder)
-        
-    }
-    
-    init?(_ coder: NSCoder? = nil) {
-        
-        if let coder = coder {
-            super.init(coder: coder)
-        }
-        else {
-            super.init(frame: CGRect.zero)
-        }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
     override func awakeFromNib() {
@@ -53,6 +34,7 @@ class ProfileHeaderContentView: UIView {
             getProfileImages()
             profileImageView.layer.cornerRadius = profileImageView.frame.size.width * 0.5
             profileImageView.clipsToBounds = true
+            self.layoutIfNeeded()
         }
     }
     
@@ -66,6 +48,12 @@ class ProfileHeaderContentView: UIView {
         
         guard let profileBackgroundURL = user.profileBackgroundURL else {
             profileBackgroundImageView.image = nil
+            let gradient = CAGradientLayer()
+            
+            gradient.frame = profileBackgroundImageView.frame
+            gradient.colors = [UIColor.clear.cgColor, UIColor.white.cgColor]
+            
+            profileBackgroundImageView.layer.insertSublayer(gradient, at: UInt32(profileBackgroundImageView.frame.minX))
             return
         }
         profileBackgroundImageView.setImageWith(profileBackgroundURL)

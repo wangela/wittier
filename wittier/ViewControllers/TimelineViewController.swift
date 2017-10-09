@@ -78,7 +78,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: nil, action: #selector(onLogoutButton(_:)))
         case .profile:
             if let thisUser = user {
-                navigationItem.title = thisUser.name
+                navigationItem.title = thisUser.screenname
             } else {
                 navigationItem.title = "Profile"
             }
