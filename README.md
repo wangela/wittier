@@ -2,7 +2,7 @@
 
 A simpler Twitter client for iOS
 
-Time spent week 1: 33 hours<br>
+Time spent [week 1](https://github.com/wangela/wittier/tree/v1): 33 hours<br>
 Time spent week 2: 19 hours
 
 ## User Stories
@@ -53,7 +53,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-| v1 walkthrough | v2 walkthrough of new features |
+| [v1](https://github.com/wangela/wittier/tree/v1) walkthrough | v2 walkthrough of new features |
 |:----:|:----:|
 | <img src='anim_wittier_v1.gif' title='Week 1 Walkthrough' width='' alt='Week 1 Walkthrough Video' /> | <img src='anim_wittier_v2.gif' title='Week 2 Walkthrough' width='' alt='Week 2 Walkthrough Video' /> |
 
