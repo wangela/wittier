@@ -3,7 +3,7 @@
 A simpler Twitter client for iOS
 
 Time spent week 1: 33 hours
-Time spent week 2: 16 hours
+Time spent week 2: 17 hours
 
 ## User Stories
 
@@ -20,6 +20,8 @@ The following **required** functionality is completed:
 - [x] Hamburger reveals links to several timelines
 - [x] Profile page with header view, user stats, and user's tweets
 - [x] Tap on any profile pic in the home timeline to go to that user's profile page
+- [ ] Add # of tweets
+- [ ] Format menu cells
 
 The following **optional** features are implemented:
 
