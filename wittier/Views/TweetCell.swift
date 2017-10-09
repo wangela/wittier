@@ -11,6 +11,8 @@ import AFNetworking
 
 @objc protocol TweetCellDelegate {
     @objc optional func replyButtonTapped(tweetCell: TweetCell)
+    
+    @objc optional func profileButtonTapped(tweetCell: TweetCell)
 }
 
 extension Date {
@@ -42,7 +44,7 @@ extension Date {
 }
 
 class TweetCell: UITableViewCell {
-    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var displayNameLabel: UILabel!
     @IBOutlet weak var screennameLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
@@ -69,9 +71,9 @@ class TweetCell: UITableViewCell {
             tweetLabel.sizeToFit()
             
             if let profileURL = user.profileURL {
-                profileImageView.setImageWith(profileURL)
+                profileButton.setBackgroundImageFor(.normal, with: profileURL)
             } else {
-                profileImageView.image = nil
+                profileButton.setImage(nil, for: .normal)
             }
             
             // Build relative timestamp
@@ -92,8 +94,8 @@ class TweetCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        profileImageView.layer.cornerRadius = profileImageView.frame.size.width * 0.5
-        profileImageView.clipsToBounds = true
+        profileButton.layer.cornerRadius = profileButton.frame.size.width * 0.5
+        profileButton.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -134,6 +136,12 @@ class TweetCell: UITableViewCell {
         }
     }
 
+    @IBAction func onProfileButton(_ sender: Any) {
+        if let _ = delegate {
+            delegate?.profileButtonTapped?(tweetCell: self)
+        }
+    }
+    
     @IBAction func onReplyButton(_ sender: Any) {
         if let _ = delegate {
             delegate?.replyButtonTapped?(tweetCell: self)

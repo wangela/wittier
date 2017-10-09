@@ -54,7 +54,7 @@
         <!--TimelineViewController-->
         <scene sceneID="iME-5t-R8Y">
             <objects>
-                <viewController title="TimelineViewController" id="yrf-4T-E4S" customClass="TimelineViewController" customModule="wittier" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TimelineVC" title="TimelineViewController" id="yrf-4T-E4S" customClass="TimelineViewController" customModule="wittier" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="KgE-qO-xoD"/>
                         <viewControllerLayoutGuide type="bottom" id="3Lw-i5-GVZ"/>
@@ -236,20 +236,23 @@
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G3m-4f-PWk">
                                                                     <rect key="frame" x="12" y="0.0" width="50" height="58"/>
                                                                     <subviews>
-                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9cZ-zV-CdR">
+                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DgQ-3p-DPA">
                                                                             <rect key="frame" x="0.0" y="8" width="50" height="50"/>
                                                                             <constraints>
-                                                                                <constraint firstAttribute="width" constant="50" id="RHC-Hg-njb"/>
-                                                                                <constraint firstAttribute="height" constant="50" id="ti7-95-d5H"/>
+                                                                                <constraint firstAttribute="height" constant="50" id="d2M-6a-Yxd"/>
+                                                                                <constraint firstAttribute="width" constant="50" id="i0D-1x-0I4"/>
                                                                             </constraints>
-                                                                        </imageView>
+                                                                            <connections>
+                                                                                <action selector="onProfileButton:" destination="sOY-2L-gIf" eventType="touchUpInside" id="ntE-Fb-Iay"/>
+                                                                            </connections>
+                                                                        </button>
                                                                     </subviews>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
-                                                                        <constraint firstItem="9cZ-zV-CdR" firstAttribute="top" secondItem="G3m-4f-PWk" secondAttribute="top" constant="8" id="5jA-o6-uL6"/>
-                                                                        <constraint firstItem="9cZ-zV-CdR" firstAttribute="leading" secondItem="G3m-4f-PWk" secondAttribute="leading" id="HrO-Mp-Xeg"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="9cZ-zV-CdR" secondAttribute="trailing" id="IoU-Hg-hRt"/>
-                                                                        <constraint firstAttribute="bottom" secondItem="9cZ-zV-CdR" secondAttribute="bottom" id="Paf-md-gMu"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="DgQ-3p-DPA" secondAttribute="trailing" id="1ik-fL-xvf"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="DgQ-3p-DPA" secondAttribute="bottom" id="9zx-ne-JfX"/>
+                                                                        <constraint firstItem="DgQ-3p-DPA" firstAttribute="leading" secondItem="G3m-4f-PWk" secondAttribute="leading" id="fnj-Ae-aI9"/>
+                                                                        <constraint firstItem="DgQ-3p-DPA" firstAttribute="top" secondItem="G3m-4f-PWk" secondAttribute="top" constant="8" id="w9t-Ad-DeW"/>
                                                                     </constraints>
                                                                 </view>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iU5-1n-toP">
@@ -385,7 +388,7 @@
                                             <outlet property="displayNameLabel" destination="slC-3p-H8n" id="baG-eR-Xhd"/>
                                             <outlet property="favCountLabel" destination="fsE-EE-BG6" id="n9w-KI-ET8"/>
                                             <outlet property="favoriteButton" destination="EbL-9g-Tko" id="RXk-be-LUo"/>
-                                            <outlet property="profileImageView" destination="9cZ-zV-CdR" id="DKO-Tk-zIj"/>
+                                            <outlet property="profileButton" destination="DgQ-3p-DPA" id="u2P-Nu-O5v"/>
                                             <outlet property="retweetButton" destination="izv-WM-MEj" id="UVx-ta-vgm"/>
                                             <outlet property="retweetView" destination="1UH-h7-HIC" id="PWb-Ly-xCu"/>
                                             <outlet property="retweeterLabel" destination="Tpa-LX-tEQ" id="ZEa-IU-aSb"/>
@@ -427,11 +430,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="jkT-AH-BJA">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="Svo-qm-4WK">
-                            <connections>
-                                <action selector="onLogoutButton:" destination="yrf-4T-E4S" id="lPz-iA-z58"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="compose" id="KxX-r9-3nA">
                             <connections>
                                 <segue destination="Fs0-xb-67x" kind="presentation" identifier="compose" id="lLG-3e-lhf"/>

@@ -69,14 +69,17 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         profileImageView.clipsToBounds = true
         
         // Build formatted date
-        guard let timestamp = tweet.timestamp else { return }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEE MMM d, h:mm a"
-        formatter.amSymbol = "AM"
-        formatter.pmSymbol = "PM"
-        guard let timestampDate = formatter.date(from: timestamp) else { return }
-        let detailTimestamp = formatter.string(from: timestampDate)
-        timestampLabel.text = detailTimestamp
+        if let timestamp = tweet.timestamp {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
+            if let timestampDate = formatter.date(from: timestamp) {
+                formatter.dateFormat = "EEE MMM d, h:mm a"
+                formatter.amSymbol = "AM"
+                formatter.pmSymbol = "PM"
+                let detailTimestamp = formatter.string(from: timestampDate)
+                timestampLabel.text = detailTimestamp
+            }
+        }
         
         // Build stats string
         updateStats()
@@ -90,6 +93,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         // If the user wants to reply
         composeTextView.delegate = self
         if replying {
+            print("showing reply")
             onReplyButton(replyButton)
         } else {
             print("hiding reply")

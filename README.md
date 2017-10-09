@@ -3,7 +3,7 @@
 A simpler Twitter client for iOS
 
 Time spent: 33 hours spent week 1
-Time spent: 9 hours spent week 2
+Time spent: 14 hours spent week 2
 
 ## User Stories
 
@@ -15,10 +15,11 @@ The following **required** functionality is completed:
 - [x] User can pull to refresh
 - [x] User can compose a new tweet by tapping on a compose button.
 - [x] User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
+------Week 2------
 - [x] Hamburger menu reveals by dragging anywhere on the screen.
 - [x] Hamburger reveals links to several timelines
 - [x] Profile page with header view, user stats, and user's tweets
-- [ ] Tap on any profile pic in any timeline to go to that user's profile page
+- [x] Tap on any profile pic in the home timeline to go to that user's profile page
 
 The following **optional** features are implemented:
 
@@ -28,7 +29,9 @@ The following **optional** features are implemented:
 - [x] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count.
 - [x] Replies should be prefixed with the username and the reply_id should be set when posting the tweet.
 - [x] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
+- [ ] Fancy profile page effects like blurring and resizing the background banner image when panning
 - [ ] Allow user to switch between accounts
+- [ ] Allow user to add an account, or swipe to delete an account
 
 The following **additional** features are implemented:
 - [x] Timestamps are displayed with relative date formatting
@@ -37,6 +40,8 @@ The following **additional** features are implemented:
 - [x] Compose page has placeholder text to encourage text entry
 - [x] Countdown label turns red within 20 characters of limit
 - [x] Enable buttons in timeline for each tweet cell to retweet, favorite, and reply.
+--------Week 2---------
+- [ ] Tap on any profile pic in **any** timeline to go to that user's profile page
 - [ ] Display hyperlinks, mentions, and hashtags in blue
 - [ ] Display media in a tweet detail view
 
@@ -50,10 +55,9 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-The foundation for displaying entities is in there, but since we haven't implemented timelines based on search or profile views yet I will defer the entities hyperlinking and displaying until next week.
+Much of the time during this second week was spent on refactoring to make for more efficient code (reduce duplication, increase encapsulation, make code more readable). I implemented each feature 2-3 times because I would implement it naively or inefficiently first just to get it working, then I would refactor it to reuse existing code or existing viewcontrollers and views.
 
-I would like to learn better documentation patterns in comments.
-I felt I could have done better with deferring logic to models; the VC code is...a medium amount of bulky.
+The foundation for displaying entities is in there, but I haven't completed the translation of entities into hyperlinks or rich media display yet. This will be on the backlog for a post-bootcamp sprint.
 
 ## License
 Credits:

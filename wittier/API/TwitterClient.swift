@@ -85,7 +85,8 @@ class TwitterClient: BDBOAuth1SessionManager {
     }
     
     // MARK: - Timelines: Home, User, Mentions
-    func getTimeline(type: timelineType, task: timelineTask, maxID: Int64? = nil, sinceID: Int64? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+    func getTimeline(type: timelineType, task: timelineTask, screenname: String? = nil, maxID: Int64? = nil,
+                     sinceID: Int64? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
         var params: [String: AnyObject] = ["count": 5 as AnyObject]
         var apiString = ""
         switch type {
@@ -93,6 +94,7 @@ class TwitterClient: BDBOAuth1SessionManager {
             apiString = "1.1/statuses/home_timeline.json"
         case .profile:
             apiString = "1.1/statuses/user_timeline.json"
+            params["screen_name"] = screenname as AnyObject
         case .mentions:
             apiString = "1.1/statuses/mentions_timeline.json"
         }

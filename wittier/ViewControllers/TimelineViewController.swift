@@ -30,6 +30,11 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         super.viewDidLoad()
         
         // set up tweetsTableView
+        guard let tweetsTableView = tweetsTableView else {
+            print("no tableview yet")
+            return
+        }
+        print("found the tableview")
         tweetsTableView.isHidden = true
         MBProgressHUD.showAdded(to: self.view, animated: true)
         
@@ -85,6 +90,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         switch timelineType {
         case .home:
             navigationItem.title = "Home"
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: nil, action: #selector(onLogoutButton(_:)))
         case .profile:
             if let thisUser = user {
                 navigationItem.title = thisUser.name
@@ -157,6 +163,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     func fetchTweets(fetchTask: timelineTask) {
         var max: Int64 = 0
         var since: Int64 = 0
+        var sn: String = ""
         switch fetchTask {
         case .initial:
             break
@@ -165,7 +172,13 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         case .refresh:
             since = sinceID
         }
-        TwitterClient.sharedInstance.getTimeline(type: timelineType, task: fetchTask, maxID: max, sinceID: since, success: { (tweets: [Tweet]) -> () in
+        if timelineType  == .profile {
+            if let user = self.user {
+                sn = user.screenname
+            }
+        }
+        TwitterClient.sharedInstance.getTimeline(type: timelineType, task: fetchTask, screenname: sn,
+                                                 maxID: max, sinceID: since, success: { (tweets: [Tweet]) -> () in
             switch fetchTask {
             case .initial:
                 self.tweets = tweets
@@ -207,7 +220,8 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         // self.tweetsTableView.setContentOffset(topPoint, animated: true)
     }
     
-    @IBAction func onLogoutButton(_ sender: Any) {
+    // only on Home timeline
+    func onLogoutButton(_ sender: Any) {
         TwitterClient.sharedInstance.logout()
     }
    
@@ -245,9 +259,23 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
             }
             destinationVC.replying = false
             destinationVC.delegate = self
+        case "profile":
+            let cell = sender as! TweetCell
+            let destinatonVC = segue.destination as! TimelineViewController
+            destinatonVC.user = cell.tweet.user
         default:
             print("segue triggered with no identifier")
         }
+    }
+    
+    private func pushProfileViewController(sender: Any) {
+        let cell = sender as! TweetCell
+        let vc = storyboard?.instantiateViewController(withIdentifier: "TimelineVC") as! TimelineViewController
+        vc.timelineType = .profile
+        vc.user = cell.tweet.user
+        vc.viewDidLoad()
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - Delegate functions
@@ -273,6 +301,10 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     
     internal func replyButtonTapped(tweetCell: TweetCell) {
         performSegue(withIdentifier: "reply", sender: tweetCell)
+    }
+    
+    internal func profileButtonTapped(tweetCell: TweetCell) {
+        pushProfileViewController(sender: tweetCell)
     }
 
 }
