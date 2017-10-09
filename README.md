@@ -3,7 +3,7 @@
 A simpler Twitter client for iOS
 
 Time spent week 1: 33 hours
-Time spent week 2: 17 hours
+Time spent week 2: 19 hours
 
 ## User Stories
 
@@ -21,7 +21,6 @@ The following **required** functionality is completed:
 - [x] Profile page with header view, user stats, and user's tweets
 - [x] Tap on any profile pic in the home timeline to go to that user's profile page
 - [ ] Add # of tweets
-- [ ] Format menu cells
 
 The following **optional** features are implemented:
 
@@ -44,6 +43,9 @@ The following **additional** features are implemented:
 - [x] Enable buttons in timeline for each tweet cell to retweet, favorite, and reply.
 #### Week 2
 - [x] Tap on any profile pic in **any** timeline to go to that user's profile page
+- [ ] Add "Follow" button to profile page views of users who are not the logged in user
+- [ ] If user is already following the profile being displayed, change "Follow" button appearance and allow user to unfollow the profile
+- [ ] Make "jump to top" button slowing appear (alpha 0 -> 1) as you scroll down the timeline
 - [ ] Display hyperlinks, mentions, and hashtags in blue
 - [ ] Display media in a tweet detail view
 
@@ -51,7 +53,9 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='anim_wittier_v1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+| v1 walkthrough (as instructed by course) | v2 walkthrough (emulating streaming media site experience) |
+|:----:|:----:|
+| <img src='anim_wittier_v1.gif' title='Week 1 Walkthrough' width='' alt='Week 1 Walkthrough Video' /> | <img src='anim_wittier_v2.gif' title='Week 2 Walkthrough' width='' alt='Week 2 Walkthrough Video' /> |
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

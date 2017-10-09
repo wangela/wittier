@@ -87,7 +87,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     // MARK: - Timelines: Home, User, Mentions
     func getTimeline(type: timelineType, task: timelineTask, screenname: String? = nil, maxID: Int64? = nil,
                      sinceID: Int64? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
-        var params: [String: AnyObject] = ["count": 5 as AnyObject]
+        var params: [String: AnyObject] = ["count": 20 as AnyObject]
         var apiString = ""
         switch type {
         case .home:

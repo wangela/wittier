@@ -87,18 +87,16 @@ class TweetViewController: UIViewController, UITextViewDelegate {
         // View setup
         boxView.layer.cornerRadius = 5
         scrollframeView.contentSize = CGSize(width: scrollframeView.frame.size.width, height: boxView.frame.origin.y + boxView.frame.size.height + 20)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         // If the user wants to reply
         composeTextView.delegate = self
         if replying {
-            print("showing reply")
             onReplyButton(replyButton)
         } else {
-            print("hiding reply")
             replytweetView.isHidden = true
-            // NSLayoutConstraint.deactivate([counterTopContstraint, composeCounterConstraint, bottomComposeConstraint])
+            NSLayoutConstraint.deactivate([counterTopContstraint, composeCounterConstraint, bottomComposeConstraint])
         }
     }
 
@@ -216,22 +214,28 @@ class TweetViewController: UIViewController, UITextViewDelegate {
     
     // MARK: - Composing a reply
     func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        print("keyboard will show")
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             var contentInset: UIEdgeInsets = self.scrollframeView.contentInset
             contentInset.bottom = keyboardSize.height
             self.scrollframeView.contentInset = contentInset
+            print ("\(self.contentView.frame.origin.y)")
+            print("\(keyboardSize.height)")
             if self.contentView.frame.origin.y == 0 {
                 self.contentView.frame.origin.y -= keyboardSize.height
+                print("made it")
             }
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        print("keyboard will hide")
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let contentInset: UIEdgeInsets = UIEdgeInsets.zero
             self.scrollframeView.contentInset = contentInset
             if self.contentView.frame.origin.y != 0 {
                 self.contentView.frame.origin.y += keyboardSize.height
+                print("exiting keyboard")
             }
         }
     }
