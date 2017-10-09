@@ -9,6 +9,7 @@
 import UIKit
 
 class ProfileHeaderContentView: UIView {
+    // MARK: - Properties
     @IBOutlet weak var profileBackgroundImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -20,6 +21,7 @@ class ProfileHeaderContentView: UIView {
 	
     var user: User!
     
+    // MARK: - Init
     convenience init() {
         self.init(frame: CGRect.zero)
     }
@@ -54,6 +56,7 @@ class ProfileHeaderContentView: UIView {
         }
     }
     
+    // MARK: - Populate content
     func getProfileImages() {
         guard let profileURL = user.profileURL else {
             profileImageView.image = nil

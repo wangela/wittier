@@ -163,7 +163,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func onRetweetButton(_ sender: Any) {
-        guard let tweetID = tweet.id else {
+        guard let tweetID = tweet.idNum else {
             print("bad tweet ID")
             return
         }
@@ -189,7 +189,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func onFaveButton(_ sender: Any) {
-        guard let tweetID = tweet.id else {
+        guard let tweetID = tweet.idNum else {
             print("bad tweet ID")
             return
         }
@@ -254,7 +254,7 @@ class TweetViewController: UIViewController, UITextViewDelegate {
             return
         }
         
-        delegate?.tweetViewController?(tweetViewController: self, replyToID: tweet.id!, tweeted: tweetText)
+        delegate?.tweetViewController?(tweetViewController: self, replyToID: tweet.idNum!, tweeted: tweetText)
         
     }
 

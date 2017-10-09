@@ -8,6 +8,7 @@
 
 import UIKit
 
+// MARK: - Entities Struct
 struct Entities {
     struct Hashtag {
         let text: String
@@ -21,13 +22,13 @@ struct Entities {
     struct Mention {
         let screenname: String
         let name: String
-        let id: Int64
+        let idNum: Int64
         let indices: [Int]
         
         init(dictionary: [String: Any]) {
             self.screenname = dictionary["screen_name"] as? String ?? ""
             self.name = dictionary["name"] as? String ?? ""
-            self.id = dictionary["id"] as? Int64 ?? 0
+            self.idNum = dictionary["id"] as? Int64 ?? 0
             self.indices = dictionary["indices"] as? [Int] ?? [0, 0]
         }
     }
@@ -83,7 +84,8 @@ struct Entities {
 }
 
 class Tweet: NSObject {
-    var id: Int64?
+    // MARK: - Properties
+    var idNum: Int64?
     var user: User?
     var text: String?
     var retweetCount: Int = 0
@@ -94,44 +96,48 @@ class Tweet: NSObject {
     var retweetedStatus: Tweet?
     var entities: Entities?
     
+    // MARK: - Init
     init(dictionary: NSDictionary) {
         super.init()
-        guard let userDict = dictionary["user"] as? NSDictionary else {
-            print("error unwrapping user from tweet")
-            return
-        }
+        guard let userDict = dictionary["user"] as? NSDictionary else { return }
         user = User(dictionary: userDict)
         
-        id = dictionary["id"] as? Int64
+        idNum = dictionary["id"] as? Int64
         text = dictionary["text"] as? String
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
         favoritesCount = (dictionary["favorite_count"] as? Int) ?? 0
         retweeted = (dictionary["retweeted"] as? Bool) ?? false
         favorited = (dictionary["favorited"] as? Bool) ?? false
         
-        guard let timestampString = dictionary["created_at"] as? String else {
-            print("bad timestamp")
-            return
+        if let timestampString = dictionary["created_at"] as? String {
+            timestamp = timestampString
         }
-        timestamp = timestampString
         
         if let ogTweetValue = dictionary["retweeted_status"] {
             let ogTweetDict = ogTweetValue as! NSDictionary
             retweetedStatus = Tweet(dictionary: ogTweetDict)
-
         }
         
         if let entitiesDict = dictionary["entities"] {
-            print("entities found")
             let entitiesDictionary = entitiesDict as! [String: Any]
             entities = Entities(dictionary: entitiesDictionary)
         }
     }
     
-    func getFormattedText(text: String, myEntities: Entities) -> NSAttributedString {
-        var attrString: NSAttributedString = NSAttributedString.init()
+    class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet] {
+        var tweets = [Tweet]()
+        
+        for dictionary in dictionaries {
+            let tweet = Tweet(dictionary: dictionary)
+            tweets.append(tweet)
+        }
+        
+        return tweets
+    }
+    
+    func getFormattedText(text: String, myEntities: Entities) { //}-> NSAttributedString {
+        // var attrString: NSAttributedString = NSAttributedString.init()
         if let hashtags = myEntities.hashtags {
-            print(hashtags)
             print("\(hashtags.count) hashtags found")
             for hashtag in hashtags {
                 print("#\(hashtag.text)")
@@ -149,18 +155,7 @@ class Tweet: NSObject {
                 print("changing links text \(link.displayURL)")
             }
         }
-       return attrString
-    }
-    
-    class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet] {
-        var tweets = [Tweet]()
-        
-        for dictionary in dictionaries {
-            let tweet = Tweet(dictionary: dictionary)
-            tweets.append(tweet)
-        }
-        
-        return tweets
+        // return attrString
     }
     
 }

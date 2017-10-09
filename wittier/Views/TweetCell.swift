@@ -149,7 +149,7 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func onRetweetButton(_ sender: Any) {
-        guard let tweetID = tweet.id else {
+        guard let tweetID = tweet.idNum else {
             print("bad tweet ID")
             return
         }
@@ -178,7 +178,7 @@ class TweetCell: UITableViewCell {
     }
     
     @IBAction func onFavoriteButton(_ sender: Any) {
-        guard let tweetID = tweet.id else {
+        guard let tweetID = tweet.idNum else {
             print("bad tweet ID")
             return
         }

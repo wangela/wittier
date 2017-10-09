@@ -12,6 +12,7 @@ import MBProgressHUD
 class TimelineViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate,
 ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     
+    // MARK: - Properties
     @IBOutlet weak var tweetsTableView: UITableView!
     @IBOutlet weak var tweetsHeaderView: UIView!
     @IBOutlet weak var profileContentView: ProfileHeaderContentView!
@@ -26,6 +27,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     var isMoreDataLoading = false
     var loadingMoreView: InfiniteScrollActivityView?
 
+    // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -196,9 +198,9 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
                 self.refreshControl.endRefreshing()
             }
 
-            let lastID: Int64 = self.tweets[self.tweets.endIndex - 1].id!
+            let lastID: Int64 = self.tweets[self.tweets.endIndex - 1].idNum!
             self.maxID = lastID - 1
-            let firstID: Int64 = self.tweets[0].id!
+            let firstID: Int64 = self.tweets[0].idNum!
             self.sinceID = firstID
             self.tweetsTableView.reloadData()
             
