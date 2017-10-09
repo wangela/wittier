@@ -17,7 +17,7 @@ class ProfileHeaderContentView: UIView {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var followingCountLabel: UILabel!
     @IBOutlet weak var followerCountLabel: UILabel!
-
+	
     var user: User!
     
     convenience init() {
@@ -46,7 +46,7 @@ class ProfileHeaderContentView: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        if let user = user {
+        if user != nil {
             getProfileLabels()
             getProfileImages()
             profileImageView.layer.cornerRadius = profileImageView.frame.size.width * 0.5

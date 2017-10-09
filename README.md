@@ -2,8 +2,8 @@
 
 A simpler Twitter client for iOS
 
-Time spent: 33 hours spent week 1
-Time spent: 14 hours spent week 2
+Time spent week 1: 33 hours
+Time spent week 2: 16 hours
 
 ## User Stories
 
@@ -15,7 +15,7 @@ The following **required** functionality is completed:
 - [x] User can pull to refresh
 - [x] User can compose a new tweet by tapping on a compose button.
 - [x] User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
-------Week 2------
+#### Week 2
 - [x] Hamburger menu reveals by dragging anywhere on the screen.
 - [x] Hamburger reveals links to several timelines
 - [x] Profile page with header view, user stats, and user's tweets
@@ -40,8 +40,8 @@ The following **additional** features are implemented:
 - [x] Compose page has placeholder text to encourage text entry
 - [x] Countdown label turns red within 20 characters of limit
 - [x] Enable buttons in timeline for each tweet cell to retweet, favorite, and reply.
---------Week 2---------
-- [ ] Tap on any profile pic in **any** timeline to go to that user's profile page
+#### Week 2
+- [x] Tap on any profile pic in **any** timeline to go to that user's profile page
 - [ ] Display hyperlinks, mentions, and hashtags in blue
 - [ ] Display media in a tweet detail view
 

@@ -59,24 +59,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         setNavigationTitle()
         
         // Show Profile information if profile
-        if timelineType == .profile {
-            if let whichUser = user {
-                tweetsTableView.tableHeaderView = tweetsHeaderView
-                profileContentView.user = whichUser
-                profileContentView.awakeFromNib()
-                
-                let size = profileContentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
-                
-                if tweetsHeaderView.frame.size.height != size.height {
-                    tweetsHeaderView.frame.size.height = size.height
-                }
-                
-                tweetsTableView.layoutIfNeeded()
-                tweetsTableView.tableHeaderView = tweetsHeaderView
-            }
-        } else {
-            tweetsTableView.tableHeaderView = nil
-        }
+        showProfileHeader()
         
         fetchTweets(fetchTask: .initial)
     }
@@ -99,6 +82,27 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
             }
         case .mentions:
             navigationItem.title = "Mentions"
+        }
+    }
+    
+    func showProfileHeader() {
+        if timelineType == .profile {
+            if let whichUser = user {
+                tweetsTableView.tableHeaderView = tweetsHeaderView
+                profileContentView.user = whichUser
+                profileContentView.awakeFromNib()
+                
+                let size = profileContentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+                
+                if tweetsHeaderView.frame.size.height != size.height {
+                    tweetsHeaderView.frame.size.height = size.height
+                }
+                
+                tweetsTableView.layoutIfNeeded()
+                tweetsTableView.tableHeaderView = tweetsHeaderView
+            }
+        } else {
+            tweetsTableView.tableHeaderView = nil
         }
     }
     

@@ -17,6 +17,7 @@ class User: NSObject {
     var tagline: String?
     var userDictionary: NSDictionary
     var location: String?
+    var tweetsCount: String?
     var followerCount: String?
     var followingCount: String?
     
@@ -38,6 +39,10 @@ class User: NSObject {
             formattedNumber.numberStyle = .decimal
             formattedNumber.maximumFractionDigits = 0
             return formattedNumber
+        }
+        if let tweetsCountInt = dictionary["statuses_count"] as? Int64 {
+            let tweetsCountNum = tweetsCountInt as NSNumber
+            tweetsCount = numberFormatter.string(from: tweetsCountNum)
         }
         if let followerCountInt = dictionary["followers_count"] as? Int64 {
             let followerCountNum = followerCountInt as NSNumber
