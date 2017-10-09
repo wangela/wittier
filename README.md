@@ -2,7 +2,7 @@
 
 A simpler Twitter client for iOS
 
-Time spent week 1: 33 hours
+Time spent week 1: 33 hours<br>
 Time spent week 2: 19 hours
 
 ## User Stories
@@ -20,7 +20,6 @@ The following **required** functionality is completed:
 - [x] Hamburger reveals links to several timelines
 - [x] Profile page with header view, user stats, and user's tweets
 - [x] Tap on any profile pic in the home timeline to go to that user's profile page
-- [ ] Add # of tweets
 
 The following **optional** features are implemented:
 
@@ -30,6 +29,7 @@ The following **optional** features are implemented:
 - [x] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count.
 - [x] Replies should be prefixed with the username and the reply_id should be set when posting the tweet.
 - [x] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
+#### Week 2
 - [ ] Fancy profile page effects like blurring and resizing the background banner image when panning
 - [ ] Allow user to switch between accounts
 - [ ] Allow user to add an account, or swipe to delete an account
@@ -53,7 +53,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-| v1 walkthrough (as instructed by course) | v2 walkthrough (emulating streaming media site experience) |
+| v1 walkthrough | v2 walkthrough of new features |
 |:----:|:----:|
 | <img src='anim_wittier_v1.gif' title='Week 1 Walkthrough' width='' alt='Week 1 Walkthrough Video' /> | <img src='anim_wittier_v2.gif' title='Week 2 Walkthrough' width='' alt='Week 2 Walkthrough Video' /> |
 
