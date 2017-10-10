@@ -145,6 +145,15 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dCg-q4-XxQ">
+                                                    <rect key="frame" x="319" y="137" width="44" height="30"/>
+                                                    <state key="normal" title="Follow">
+                                                        <color key="titleColor" red="0.1137254902" green="0.63137254899999995" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="onFollowButton:" destination="yrf-4T-E4S" eventType="touchUpInside" id="GkF-ys-Ifk"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -160,6 +169,8 @@
                                                 <constraint firstItem="VeD-Cm-F6n" firstAttribute="leading" secondItem="b8a-4o-1zG" secondAttribute="leading" constant="20" id="OFo-QE-gfC"/>
                                                 <constraint firstItem="Bwd-Zy-anw" firstAttribute="top" secondItem="b8a-4o-1zG" secondAttribute="top" id="OSU-3G-5Vb"/>
                                                 <constraint firstItem="2QN-gJ-2qs" firstAttribute="leading" secondItem="ZFq-rs-dBF" secondAttribute="leading" id="PJh-lx-WJo"/>
+                                                <constraint firstItem="dCg-q4-XxQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="hw2-ZL-VAc" secondAttribute="trailing" constant="12" id="RHt-Bq-IbV"/>
+                                                <constraint firstItem="dCg-q4-XxQ" firstAttribute="baseline" secondItem="hw2-ZL-VAc" secondAttribute="baseline" id="Uix-m1-X2p"/>
                                                 <constraint firstItem="tBW-9U-bSH" firstAttribute="leading" secondItem="b8a-4o-1zG" secondAttribute="leading" constant="20" id="VhU-MC-5s9"/>
                                                 <constraint firstAttribute="bottom" secondItem="NKf-8g-HIi" secondAttribute="bottom" constant="12" id="WQc-yI-eQA"/>
                                                 <constraint firstItem="7sg-Ib-zJe" firstAttribute="top" secondItem="Bwd-Zy-anw" secondAttribute="bottom" constant="-25" id="YUh-Jw-Dic"/>
@@ -171,6 +182,7 @@
                                                 <constraint firstItem="c9e-Rg-3a8" firstAttribute="leading" secondItem="b8a-4o-1zG" secondAttribute="leading" constant="20" id="f4m-Xw-Jz9"/>
                                                 <constraint firstItem="fDm-8l-0TL" firstAttribute="leading" secondItem="b8a-4o-1zG" secondAttribute="leading" constant="20" id="fg2-CC-YXM"/>
                                                 <constraint firstItem="2QN-gJ-2qs" firstAttribute="centerY" secondItem="Ymv-Vc-rqd" secondAttribute="centerY" id="gGe-tv-Xe1"/>
+                                                <constraint firstAttribute="trailing" secondItem="dCg-q4-XxQ" secondAttribute="trailing" constant="12" id="hi5-Bn-rxd"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="c9e-Rg-3a8" secondAttribute="trailing" constant="12" id="jaL-z6-Hk1"/>
                                                 <constraint firstItem="Ymv-Vc-rqd" firstAttribute="leading" secondItem="2QN-gJ-2qs" secondAttribute="trailing" constant="12" id="mnL-vS-7aF"/>
                                                 <constraint firstItem="XzW-YE-BbR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ZFq-rs-dBF" secondAttribute="trailing" constant="12" id="mpy-Fk-s5c"/>
@@ -457,6 +469,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="profileContentView" destination="b8a-4o-1zG" id="1yY-wj-jNq"/>
+                        <outlet property="profileFollowButton" destination="dCg-q4-XxQ" id="8K4-zX-hTc"/>
+                        <outlet property="profileTweetsCountLabel" destination="VeD-Cm-F6n" id="55O-iC-lSY"/>
                         <outlet property="tweetsHeaderView" destination="psR-ys-mwG" id="QKP-Ok-vKY"/>
                         <outlet property="tweetsTableView" destination="eTs-S9-qy3" id="ofC-L2-fEp"/>
                         <segue destination="h7r-Ub-2qB" kind="show" identifier="reply" id="2Gg-fp-wYg"/>

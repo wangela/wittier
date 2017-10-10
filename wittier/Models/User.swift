@@ -20,6 +20,7 @@ class User: NSObject {
     var tweetsCount: String?
     var followerCount: String?
     var followingCount: String?
+    var isFollowing: Bool
     
     static let userDidLogoutNotification: Notification.Name = Notification.Name(rawValue: "UserDidLogout")
     static var _currentUser: User?
@@ -57,6 +58,7 @@ class User: NSObject {
     // MARK: - Init
     init(dictionary: NSDictionary) {
         self.userDictionary = dictionary
+        isFollowing = (dictionary["following"] as? Bool)!
         super.init()
         
         name = dictionary["name"] as? String
@@ -69,6 +71,7 @@ class User: NSObject {
         
         tagline = dictionary["description"] as? String
         location = dictionary["location"] as? String
+
         
         setStats(dictionary: dictionary)
         
@@ -83,7 +86,6 @@ class User: NSObject {
         } else {
             print("no bg profile url string")
             profileBackgroundURL = nil
-            return
         }
     }
     

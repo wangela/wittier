@@ -16,6 +16,8 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     @IBOutlet weak var tweetsTableView: UITableView!
     @IBOutlet weak var tweetsHeaderView: UIView!
     @IBOutlet weak var profileContentView: ProfileHeaderContentView!
+    @IBOutlet weak var profileFollowButton: UIButton!
+    @IBOutlet weak var profileTweetsCountLabel: UILabel!
     
     var timelineType: timelineType = .home
     var tweets: [Tweet]!
@@ -89,6 +91,11 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
     
     func showProfileHeader() {
         if timelineType == .profile {
+            profileFollowButton.layer.cornerRadius = profileFollowButton.frame.size.height * 0.5
+            profileFollowButton.layer.borderWidth = 1
+            profileFollowButton.layer.borderColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0).cgColor
+            profileFollowButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+            
             if let whichUser = user {
                 tweetsTableView.tableHeaderView = tweetsHeaderView
                 profileContentView.user = whichUser
@@ -102,10 +109,38 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
                 
                 tweetsTableView.layoutIfNeeded()
                 tweetsTableView.tableHeaderView = tweetsHeaderView
+                
+                profileTweetsCountLabel.text = whichUser.tweetsCount
+                
+                if whichUser == User.currentUser {
+                    profileFollowButton.isHidden = true
+                } else {
+                    if whichUser.isFollowing == true {
+                        makeFollowButtonTrue()
+                    } else {
+                        makeFollowButtonFalse()
+                    }
+                }
             }
         } else {
             tweetsTableView.tableHeaderView = nil
         }
+    }
+    
+    func makeFollowButtonTrue() {
+        profileFollowButton.backgroundColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
+        profileFollowButton.setTitleColor(.white, for: .normal)
+        profileFollowButton.setTitle("Following", for: .normal)
+        profileFollowButton.layoutIfNeeded()
+        profileFollowButton.sizeToFit()
+    }
+    
+    func makeFollowButtonFalse() {
+        profileFollowButton.backgroundColor = .white
+        profileFollowButton.setTitleColor(UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0), for: .normal)
+        profileFollowButton.setTitle("Follow", for: .normal)
+        profileFollowButton.layoutIfNeeded()
+        profileFollowButton.sizeToFit()
     }
     
     // MARK: - TableView setup
@@ -220,6 +255,7 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         fetchTweets(fetchTask: .refresh )
     }
     
+    // MARK: - Buttons
     @IBAction func onTopButton(_ sender: Any) {
         let indexPath = NSIndexPath(row: 0, section: 0) as IndexPath
         self.tweetsTableView.scrollToRow(at: indexPath, at: .top, animated: true)
@@ -231,6 +267,18 @@ ComposeViewControllerDelegate, TweetViewControllerDelegate, TweetCellDelegate {
         TwitterClient.sharedInstance.logout()
     }
    
+    // only on Profile timeline
+    @IBAction func onFollowButton(_ sender: Any) {
+        if let profileUser = user {
+            let currentState = profileUser.isFollowing
+            profileUser.isFollowing = !currentState
+            if currentState {
+                makeFollowButtonFalse()
+            } else {
+                makeFollowButtonTrue()
+            }
+        }
+    }
     
     // MARK: - Navigation
 

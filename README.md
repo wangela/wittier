@@ -3,7 +3,7 @@
 A simpler Twitter client for iOS
 
 Time spent [week 1](https://github.com/wangela/wittier/tree/v1): 33 hours<br>
-Time spent week 2: 19 hours
+Time spent week 2: 20 hours
 
 ## User Stories
 
@@ -21,6 +21,7 @@ The following **required** functionality is completed:
 - [x] Profile page with header view, user stats, and user's tweets
 - [x] Tap on any profile pic in the home timeline to go to that user's profile page
 
+
 The following **optional** features are implemented:
 
 - [x] When composing, you should have a countdown in the upper right for the tweet limit.
@@ -34,6 +35,7 @@ The following **optional** features are implemented:
 - [ ] Allow user to switch between accounts
 - [ ] Allow user to add an account, or swipe to delete an account
 
+
 The following **additional** features are implemented:
 - [x] Timestamps are displayed with relative date formatting
 - [x] Label retweets and display the original tweet as primary in a RT, in both Home timeline and Detail screen
@@ -43,8 +45,8 @@ The following **additional** features are implemented:
 - [x] Enable buttons in timeline for each tweet cell to retweet, favorite, and reply.
 #### Week 2
 - [x] Tap on any profile pic in **any** timeline to go to that user's profile page
-- [ ] Add "Follow" button to profile page views of users who are not the logged in user
-- [ ] If user is already following the profile being displayed, change "Follow" button appearance and allow user to unfollow the profile
+- [x] Add "Follow" button to profile page views of users who are not the logged in user
+- [x] If user is already following the profile being displayed, change "Follow" button appearance and allow user to unfollow the profile
 - [ ] Make "jump to top" button slowing appear (alpha 0 -> 1) as you scroll down the timeline
 - [ ] Display hyperlinks, mentions, and hashtags in blue
 - [ ] Display media in a tweet detail view
@@ -56,6 +58,8 @@ Here's a walkthrough of implemented user stories:
 | [v1](https://github.com/wangela/wittier/tree/v1) walkthrough | v2 walkthrough of new features |
 |:----:|:----:|
 | <img src='anim_wittier_v1.gif' title='Week 1 Walkthrough' width='' alt='Week 1 Walkthrough Video' /> | <img src='anim_wittier_v2.gif' title='Week 2 Walkthrough' width='' alt='Week 2 Walkthrough Video' /> |
+| v3 walkthrough (add Series shows) |
+| <img src='anim_wittier_v2following.gif' title='Week 2 Following Walkthrough' width='' alt='Week 2 Following Walkthrough Video' /> |
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
