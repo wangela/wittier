@@ -55,11 +55,11 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-| [v1](https://github.com/wangela/wittier/tree/v1) walkthrough | v2 walkthrough of new features |
+| [v1](https://github.com/wangela/wittier/tree/v1) walkthrough |  |
 |:----:|:----:|
-| <img src='anim_wittier_v1.gif' title='Week 1 Walkthrough' width='' alt='Week 1 Walkthrough Video' /> | <img src='anim_wittier_v2.gif' title='Week 2 Walkthrough' width='' alt='Week 2 Walkthrough Video' /> |
-| v3 walkthrough (add Series shows) |
-| <img src='anim_wittier_v2following.gif' title='Week 2 Following Walkthrough' width='' alt='Week 2 Following Walkthrough Video' /> |
+| <img src='anim_wittier_v1.gif' title='Week 1 Walkthrough' width='' alt='Week 1 Walkthrough Video' /> |  |
+| v2 walkthrough of new features | v2 walkthrough (Following feature) |
+| <img src='anim_wittier_v2.gif' title='Week 2 Walkthrough' width='' alt='Week 2 Walkthrough Video' /> | <img src='anim_wittier_v2following.gif' title='Week 2 Following Walkthrough' width='' alt='Week 2 Following Walkthrough Video' /> |
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
